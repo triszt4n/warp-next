@@ -1,0 +1,32 @@
+<%= form_with(model: event_type, local: true) do |form| %>
+  <% if event_type.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(event_type.errors.count, "error") %> prohibited this event from being saved:</h2>
+
+      <ul>
+        <% event_type.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="input-group mb-12 mb-2">
+    <div class="input-group-prepend">
+      <%= form.label :name, class: "input-group-text" %>
+
+    </div>
+    <%= form.text_field :name, class: "form-control", required: true %>
+  </div>
+
+
+  <%= react_component("JsonFormBuilder", { schema: @event_type.schema, uischema: @event_type.uischema, token: form_authenticity_token }) %>
+
+
+  <div class="button-collection mt-2">
+    <div class="d-flex justify-content-left ">
+      <%= form.submit class: "btn btn-success" %>
+    </div>
+  </div>
+<% end %>
+

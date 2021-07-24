@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Airsoft</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport"/>
+    <%= favicon_link_tag image_path('favicon.ico') %>
+    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= yield :stylesheets %>
+  </head>
+
+  <body>
+    <div class="wrapper d-flex flex-column min-vh-100">
+      <%= render 'layouts/navbar' %>
+      <%= yield :header %>
+      <div class="container flex-grow-1">
+        <%= render 'layouts/notification' %>
+        <%= yield %>
+      </div>
+      <%= render 'layouts/footer' %>
+    </div>
+    <%= yield :javascripts %>
+  </body>
+</html>

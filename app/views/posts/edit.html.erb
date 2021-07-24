@@ -1,0 +1,11 @@
+<div class="card mt-2">
+  <div class="card-header bg-primary">
+    <h1 class="text-center text-white" style="font-weight: bolder">Poszt módosítása</h1>
+  </div>
+  <div class="card-body">
+    <%= render 'form', post: @post %>
+  </div>
+  <div class="card-footer bg-primary">
+    <%= link_to 'Vissza', @post, class: "btn btn-success" %>
+  </div>
+</div>

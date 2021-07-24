@@ -1,0 +1,13 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Esemény űrlap előnézet</h1>
+
+<div class="row">
+  <div class="col-12 col-md-6">
+    <%= react_component("JsonFormPreview", {schema: @event_type.schema, uischema: @event_type.uischema}, {prerender:true}) %>
+  </div>
+</div>
+
+
+<%= link_to 'Edit', edit_event_type_path(@event_type) %> |
+<%= link_to 'Back', event_types_path %>

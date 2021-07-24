@@ -1,0 +1,13 @@
+<% content_for :stylesheets do %>
+  <%= stylesheet_link_tag 'https://cdn.jsdelivr.net/npm/fullcalendar@5.5.1/main.min.css', 'data-turbolinks-track': 'reload' %>
+  <%= javascript_include_tag 'https://cdn.jsdelivr.net/npm/fullcalendar@5.5.1/main.min.js', 'data-turbolinks-track': 'reload' %>
+<% end %>
+
+<% content_for :javascripts do %>
+  <%= javascript_pack_tag 'calendar', 'data-turbolinks-track': 'reload' %>
+<% end %>
+
+<%# Content %>
+<div class="bg-light mt-sm-5 p-2 p-md-3 py-4 rounded">
+  <div id='calendar'></div>
+</div>

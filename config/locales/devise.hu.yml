@@ -1,0 +1,74 @@
+# Additional translations at http://github.com/plataformatec/devise/wiki/I18n
+# Src: https://gist.github.com/czettnersandor/716483
+
+hu:
+  devise:
+    failure:
+      already_authenticated: 'Már be van jelentkezve.'
+      unauthenticated: 'A folytatáshoz bejelentkezés szükséges.'
+      unconfirmed: 'A folytatáshoz az email cím megerősítése szükséges.'
+      locked: 'A fiók zárolva lett.'
+      invalid: 'Hibás email cím vagy jelszó.'
+      invalid_token: 'Hibás bejelentkező token.'
+      timeout: 'A munkafolyamat lejárt. Újboli bejelentkezés szükséges.'
+      inactive: 'A fiók még nincs aktiválva.'
+    sessions:
+      signed_in: 'Sikeres bejelentkezés.'
+      signed_out: 'A kijelentkezés sikeres.'
+    passwords:
+      send_instructions: 'A megadott címre egy email érkezik hamarosan a további teendőkről.'
+      updated: 'A jelszó megváltozott. Bejelentkezve a felhasználói fiókba.'
+      updated_not_active: 'A jelszó megváltozott.'
+      send_paranoid_instructions: "Ha az email cím már létezik az adatbázisban, egy jelszó-visszaállító emailt küldtünk a megadott címre."
+      no_token: "Csak akkor érheti el ezt az oldalt, ha egy jelszó megváltoztató emailből érkezik. Ha ön a jelszó megváltozató emailből érkezett, kérjük győződjön meg róla, hogy a teljes linket használja, nem csak egy részletét."
+      updated_not_active: "A jelszavát sikeresen megváltoztattuk."
+    confirmations:
+      send_instructions: 'A megadott címre egy email érkezik a megerősítő linkkel.'
+      send_paranoid_instructions: 'Ha az email cím már létezik az adatbázisban, egy emailt küldtünk a további teendőkkel a fiók megerősítéséhez.'
+      confirmed: 'Fiók megerősítve. Bejelentkezve a felhasználói fiókba.'
+    registrations:
+      signed_up: 'Sikeres regisztráció.'
+      inactive_signed_up: 'Sikeres regisztráció, azonban még a bejelentkezés nem lehetséges, mert a felhasználói fiók %{reason}.'
+      updated: 'Sikeres fiókmódosítás.'
+      destroyed: 'Felhasználói fiók törölve. Reméljük, még visszatér hozzánk.'
+      reasons:
+        inactive: 'inaktív'
+        unconfirmed: 'meg nem erősített'
+        locked: 'zárolt'
+      signed_up_but_inactive: "Sikeres regisztráció, azonban még a bejelentkezés nem lehetséges, mert a felhasználói fiókja még nem aktív."
+      signed_up_but_locked: "Sikeres regisztráció, azonban még a bejelentkezés nem lehetséges, mert a felhasználói fiókja zárolt."
+      signed_up_but_unconfirmed: "A megerősítési információkat elkűldtük emailben. Ahhoz, hogy bejelentkezhessen, kérjük, nyissa meg az emailben, az aktiváló linket, hogy megerősítse fiókját."
+      update_needs_confirmation: "Ön módosította fiókját, de még meg kell erősítenie új email címét. Kérjük, ellenőrizze email fiókját, ahová a megerősítő emailt kiküldtük és kattintson a megerősítő emailre, hogy véglegesítsük új email címét."
+    unlocks:
+      send_instructions: 'Hamarosan a megadott címre érkezik egy email a fiók zárolásának megszüntetésével kapcsolatban.'
+      unlocked: 'A felhasználói fiók zárolása megszűnt. Bejelentkezve a felhasználói fiókba.'
+      send_paranoid_instructions: 'Ha a fiók létezik, egy emailt küldtünk a további teendőkkel a fiók zárolásának megszüntetéséhez.'
+    omniauth_callbacks:
+      success: 'Sikeres azonosítás %{kind} fiókkal.'
+      failure: 'Nem sikerült azonosítani %{kind} fiókkal, az ok: "%{reason}".'
+    mailer:
+      confirmation_instructions:
+        subject: 'Email cím megerősítés'
+      reset_password_instructions:
+        subject: 'Jelszó megváltoztatása'
+      unlock_instructions:
+        subject: 'Fiók zárolásának megszüntetése'
+  errors:
+    messages:
+      expired: "lejárt, igényelj egy újat"
+      not_found: "nem található"
+      already_confirmed: "már meg van erősítve"
+      not_locked: "nincs zárolva"
+      not_saved:
+        one: "1 hiba miatt %{resource} mentése nem lehetséges:"
+        other: "%{count} hiba miatt %{resource} mentése nem lehetséges:"
+  helpers:
+    label:
+      user:
+        admin: Rendszergazda
+        email: Email
+        password: Jelszó
+        password_confirmation: Jelszó megerősítése
+        current_password: Jelenlegi jelszó
+        remember_me: Emlékezz rám
+        name: Név

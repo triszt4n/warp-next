@@ -1,0 +1,24 @@
+<%= form_with(model: post, local: true) do |form| %>
+  <%= render 'layouts/errors', errors: post.errors %>
+
+  <div class="mb-2">
+    <%= form.label :title, class: "form-label" %>
+    <%= form.text_field :title, class: "form-control" %>
+  </div>
+
+  <div class="mb-5">
+    <%= form.label :short_description, class: "form-label" %>
+    <%= form.text_field :short_description, class: "form-control" %>
+  </div>
+
+  <div class="mb-2">
+    <%= form.label :formatted_document, class: "form-label" %>
+    <%= form.rich_text_area :formatted_document %>
+  </div>
+
+  <div class="button-collection mb-2">
+    <div class="d-flex justify-content-center ">
+      <%= form.submit class: "btn btn-success" %>
+    </div>
+  </div>
+<% end %>

@@ -1,0 +1,21 @@
+<h1> Regisztrálás eseményre </h1>
+
+<div class="row">
+  <div class="col-12 col-md-6">
+    <%= react_component("EventRegistrationForm",
+                        { schema:    @event_type.schema,
+                          uischema:  @event_type.uischema,
+                          token:     form_authenticity_token,
+                          eventId:   @participation.event_id,
+                          form_data: @participation.form_data.to_json,
+                          url:       '/participations',
+                          method:    'POST'
+                        },
+                        { prerender: true }) %>
+
+  </div>
+</div>
+
+
+
+<%= link_to 'Back', participations_path %>

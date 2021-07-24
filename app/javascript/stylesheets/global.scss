@@ -1,0 +1,125 @@
+/**
+ * @author Triszt4n
+ * Additional classes for the project
+ */
+
+a .clickable, .clickable {
+  text-decoration: none;
+  cursor: pointer;
+  color: $body-color;
+}
+
+a .clickable:hover, .clickable:hover {
+  color: $body-color;
+
+  .title {
+    color: $link-color;
+    transition: all 150ms;
+  }
+  .timestamp {
+    color: $link-color;
+    transition: all 150ms;
+  }
+}
+
+.thumbnail {
+  height: 10rem;
+  object-fit: cover;
+  max-width: 10rem;
+}
+
+@media (max-width: 768px) {
+  .thumbnail {
+    height: 6rem;
+    max-width: 6rem;
+  }
+}
+
+.custom-toast {
+  position: absolute;
+  top: 1rem;
+  z-index: -1;
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0;
+  text-align: center;
+}
+
+.navbar {
+  transition: background-color 500ms ease-in-out;
+}
+
+.transparent-nav {
+  position: relative;
+  font-weight: 300;
+}
+
+@media (min-width: 768px) {
+  .transparent-nav {
+    position: fixed;
+    font-weight: 600;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 1030;
+    background: transparent;
+    background-color: transparent !important;
+  }
+
+  .scrolling-nav {
+    background: fixed !important;
+    background-color: $secondary !important;
+    transition: background-color 500ms ease-in-out;
+  }
+}
+
+header.overlay {
+  background: no-repeat center center;
+  background-color: $body-bg;
+  background-attachment: scroll;
+  position: relative;
+  background-size: cover;
+  margin-bottom: 50px;
+  padding: 4rem 0 3rem 0;
+  color: $white;
+}
+
+@media (min-width: 768px) {
+  header.overlay {
+    padding: 11rem 0 7rem 0;
+  }
+}
+
+.album-card-thumbnail {
+  background: no-repeat center center;
+  background-attachment: scroll;
+  position: relative;
+  background-size: cover;
+  filter: brightness(90%);
+}
+
+.album-card:hover {
+  .album-card-thumbnail {
+    filter: brightness(100%);
+    transition: all 200ms;
+  }
+}
+
+.album-card-date {
+  position: absolute;
+  top: -0.25rem;
+  left: -0.25rem;
+  padding: .25rem;
+  text-align: center;
+}
+
+.navbar-brand {
+  font-weight: 600;
+}
+
+.album-image-delete {
+  position: absolute;
+  top: -0.25rem;
+  right: -0.25rem;
+}

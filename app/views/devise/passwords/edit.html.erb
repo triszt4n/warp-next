@@ -1,0 +1,27 @@
+<div class="my-3 mx-auto" style="max-width: 30rem;">
+  <h2 class="text-center">Jelszó megváltoztatása</h2>
+
+  <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f| %>
+    <%= render "devise/shared/error_messages", resource: resource %>
+    <%= f.hidden_field :reset_password_token %>
+
+    <div class="mt-2">
+      <%= f.label :password, "Új jelszó", class: "form-label" %>
+      <%= f.password_field :password, autofocus: true, autocomplete: "new-password", class: "form-control" %>
+      <% if @minimum_password_length %>
+        <em>(min. <%= @minimum_password_length %> karakter)</em>
+      <% end %>
+    </div>
+
+    <div class="mt-2">
+      <%= f.label :password_confirmation, "Jelszó megerősítése", class: "form-label" %>
+      <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "form-control" %>
+    </div>
+
+    <div class="my-3 text-center">
+      <%= f.submit "Módosítás mentése", class: "btn btn-primary" %>
+    </div>
+  <% end %>
+
+  <%= render "devise/shared/links" %>
+</div>

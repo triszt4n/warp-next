@@ -1,0 +1,191 @@
+<%# Header %>
+<% content_for :header do %>
+  <header class="mb-4 mt-3">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-12 d-flex justify-content-center align-items-center">
+          <h1 class="fs-2 m-0 p-2">
+            <%= @album.title %>
+          </h1>          
+        </div>
+        <div class="col-12 mt-2 d-flex justify-content-center">
+          <p class="fs-5">
+            <%= @album.short_desc %>
+          </p>
+        </div>
+        <div class="col-12 d-flex justify-content-center">
+          <p class="fs-6 fst-italic">
+            <%= l @album.date %>
+          </p>
+        </div>
+      </div>
+    </div>
+  </header>
+<% end %>
+
+<%# Buttons for admins %>
+<% if admin_signed_in? %>
+<div class="row mb-5">
+  <div class="col-6">
+    <%= link_to albums_path, class: "btn btn-primary" do %>
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+        <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
+      </svg>
+    <% end %>
+  </div>
+  <div class="col-6">
+    <div class="btn-group float-end">
+      <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
+          <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
+        </svg>
+      </button>
+      <ul class="dropdown-menu dropdown-menu-end">
+        <li>
+          <button type="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#add-image-modal">
+            Kép(ek) hozzáadása
+          </button>
+        </li>
+        <li>
+          <%= link_to "Tulajdonságok módosítása", edit_album_path(@album), class: "dropdown-item" %>
+        </li>
+        <li><hr class="dropdown-divider"></li>
+        <li>
+          <%= link_to "Album törlése", @album, class: "text-danger dropdown-item",
+            method: :delete, data: { confirm: "Biztosan törlöd az egész albumot?" } %>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+<% end %>
+
+<%# Content %>
+<div class="row" id="content">
+  <% @album.images.each do |image| %>
+    <div class="col-sm-6 col-lg-4 mb-4">
+      <div class="card p-1">
+        <%= image_tag image, class: "bd-placeholder-img card-img-top clickable album-image" %>
+
+        <%# Button for admins %>
+        <% if admin_signed_in? %>
+        <%= link_to delete_image_album_url(image_id: image.id), class: "btn btn-danger album-image-delete shadow", 
+          method: :delete, data: { confirm: 'Valóban el szeretnéd távolítani a képet?' } do %>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+            <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+          </svg>
+        <% end %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+  <% if @album.images.empty? %>
+    <div class="col-12 text-center my-5">
+      <div class="fs-5 text-muted fst-italic">
+        Üres album
+      </div>
+      <div class="fs-6 text-muted fst-italic">
+        Adj hozzá képeket!
+        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="align-top bi bi-arrow-up-right" viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M14 2.5a.5.5 0 0 0-.5-.5h-6a.5.5 0 0 0 0 1h4.793L2.146 13.146a.5.5 0 0 0 .708.708L13 3.707V8.5a.5.5 0 0 0 1 0v-6z"/>
+        </svg>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<% content_for :javascripts do %>
+  <!-- Modal -->
+  <% if admin_signed_in? %>
+  <div class="modal fade" id="add-image-modal" tabindex="-1" aria-labelledby="modal-label" aria-hidden="true">
+    <div class="modal-dialog">
+      <%= form_with(url: add_image_album_path, method: :post) do |form| %>
+
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modal-label">Adj hozzá kép(ek)et albumodhoz!</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="mb-3">
+              <%= render 'layouts/errors', errors: @album.errors %>
+            </div>
+            
+            <div class="mb-3">
+              <%= form.label :images, class: "form-label" %>
+              <%= form.file_field :images, multiple: true, accept: 'image/png, image/jpeg', class: "form-control" %>
+              <div id="images-help" class="form-text">Válaszd ki a hozzáadandó képeket!</div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <%= form.submit class: "btn btn-success" %>
+          </div>
+        </div>
+
+      <% end %>
+    </div>
+  </div>
+  <% end %>
+
+  <!-- Root element of PhotoSwipe. Must have class pswp. -->
+  <div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+      It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+      <!-- Container that holds slides. 
+        PhotoSwipe keeps only 3 of them in the DOM to save memory.
+        Don't modify these 3 pswp__item elements, data is added later on. -->
+      <div class="pswp__container">
+        <div class="pswp__item"></div>
+        <div class="pswp__item"></div>
+        <div class="pswp__item"></div>
+      </div>
+
+      <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+      <div class="pswp__ui pswp__ui--hidden">
+          <div class="pswp__top-bar">
+            <!--  Controls are self-explanatory. Order can be changed. -->
+            <div class="pswp__counter"></div>
+            <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+            <button class="pswp__button pswp__button--share" title="Share"></button>
+            <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+            <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+            <!-- Preloader demo https://codepen.io/dimsemenov/pen/yyBWoR -->
+            <!-- element will get class pswp__preloader--active when preloader is running -->
+            <div class="pswp__preloader">
+                <div class="pswp__preloader__icn">
+                  <div class="pswp__preloader__cut">
+                    <div class="pswp__preloader__donut"></div>
+                  </div>
+                </div>
+            </div>
+          </div>
+
+          <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+            <div class="pswp__share-tooltip"></div> 
+          </div>
+          <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)"></button>
+          <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button>
+          <div class="pswp__caption">
+            <div class="pswp__caption__center"></div>
+          </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    images = <%= @album.images.map{
+      |i| { src: url_for(i), w: i.metadata["width"], h: i.metadata["height"] }
+      }.to_json.html_safe %>
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js"></script>
+  <script src="https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js"></script>
+  <%= javascript_pack_tag 'album', 'data-turbolinks-track': 'reload' %>
+<% end %>

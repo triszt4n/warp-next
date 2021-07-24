@@ -1,0 +1,21 @@
+# == Schema Information
+#
+# Table name: events
+#
+#  id            :bigint           not null, primary key
+#  date          :datetime
+#  name          :string
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#  event_type_id :integer
+#
+
+one:
+  post: one
+  date: 2021-02-01 19:45:52
+  event_type_id: 1
+
+two:
+  post: two
+  date: 2021-02-01 19:45:52
+  event_type_id: 1

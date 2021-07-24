@@ -1,0 +1,91 @@
+<%# Javascript import for handling overlay attributes %>
+<% content_for :javascripts do %>
+  <%= javascript_pack_tag 'events', 'data-turbolinks-track': 'reload' %>
+<% end %>
+
+<%# Header with navbar overlay %>
+<% content_for :header do %>
+  <header class="overlay mb-4" style="<%= "background-image: linear-gradient(rgba(0,0,0,.7), rgba(0,0,0,.7)), url('" + image_path('home-bg.jpg') + "')" %>">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10 text-center">
+          <h1 class="fs-1">Hírek</h1>
+          <p class="fs-4">Játékainkról és körünkről</p>
+        </div>
+      </div>
+    </div>
+  </header>
+<% end %>
+
+<%# Button for admins %>
+<% if admin_signed_in? %>
+<div class="row justify-content-center mb-2">
+  <div class="col-lg-8 col-md-10 col-12">
+    <div class="btn-group float-end">
+      <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+        Új...
+      </button>
+      <ul class="dropdown-menu dropdown-menu-end">
+        <li><%= link_to 'Poszt', new_post_path, class: "dropdown-item" %></li>
+        <li><%= link_to 'Esemény', new_event_path, class: "dropdown-item" %></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<% end %>
+
+<%# Post cards %>
+<div class="row justify-content-center mb-3">
+  <div class="col-lg-8 col-md-10 col-12">
+    <% @posts.each do |post| %>
+      <%= link_to post, class: "card clickable mb-3 bg-transparent border-0" do %>
+        <div class="card-body p-0 py-2 clearfix">
+          <img src="https://via.placeholder.com/200" class="thumbnail m-3 mt-2 float-end" alt="...">
+          <div class="card-title">
+            <span class="fs-5 title">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-calendar2-date" viewBox="0 0 16 16">
+                <path d="M6.445 12.688V7.354h-.633A12.6 12.6 0 0 0 4.5 8.16v.695c.375-.257.969-.62 1.258-.777h.012v4.61h.675zm1.188-1.305c.047.64.594 1.406 1.703 1.406 1.258 0 2-1.066 2-2.871 0-1.934-.781-2.668-1.953-2.668-.926 0-1.797.672-1.797 1.809 0 1.16.824 1.77 1.676 1.77.746 0 1.23-.376 1.383-.79h.027c-.004 1.316-.461 2.164-1.305 2.164-.664 0-1.008-.45-1.05-.82h-.684zm2.953-2.317c0 .696-.559 1.18-1.184 1.18-.601 0-1.144-.383-1.144-1.2 0-.823.582-1.21 1.168-1.21.633 0 1.16.398 1.16 1.23z"/>
+                <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM2 2a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1H2z"/>
+                <path d="M2.5 4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5H3a.5.5 0 0 1-.5-.5V4z"/>
+              </svg>
+              <%= post.title %>
+            </span>
+            <%# Checking if it was posted in the last 3 weeks %>
+            <% if (DateTime.now - post.created_at.to_datetime).to_i < 21 %>
+              <span class="badge bg-primary align-top">
+                Friss!
+              </span>
+            <% end %>
+          </div>
+          <p class="card-text timestamp">Időpontja: 2021. 03. 14.</p>
+          <p class="card-text"><%= post.short_description %></p>
+          <p class="card-text"><small class="text-muted">Közzétéve 2021. 02. 18. 01:21</small></p>
+        </div>
+      <% end %>
+      <hr>
+    <% end %>
+  </div>
+</div>
+
+<%# Pagination %>
+<div class="row justify-content-center">
+  <div class="col-auto">
+    <nav aria-label="Page navigation example">
+      <ul class="pagination">
+        <li class="page-item">
+          <a class="page-link" href="#" aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+          </a>
+        </li>
+        <li class="page-item"><a class="page-link" href="#">1</a></li>
+        <li class="page-item"><a class="page-link" href="#">2</a></li>
+        <li class="page-item"><a class="page-link" href="#">3</a></li>
+        <li class="page-item">
+          <a class="page-link" href="#" aria-label="Next">
+            <span aria-hidden="true">&raquo;</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</div>

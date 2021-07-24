@@ -1,0 +1,37 @@
+<%= form_with(model: album, local: true) do |form| %>
+  <%= render 'layouts/errors', errors: album.errors %>
+
+  <div class="mb-3">
+    <%= form.label :title, class: "form-label" %>
+    <%= form.text_field :title, class: "form-control" %>
+  </div>
+
+  <div class="mb-3 align-items-center">
+    <%= form.label :date, class: "form-label" %>
+    <div class="form-control">
+      <%= form.date_select :date, {}, class: "" %>
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :short_desc, class: "form-label" %>
+    <%= form.text_field :short_desc, class: "form-control" %>
+  </div>
+
+  <% if page_type == :new %>
+    <div class="mb-3">
+      <%= form.label :images, class: "form-label" %>
+      <%= form.file_field :images, multiple: true, accept: 'image/png, image/jpeg', class: "form-control" %>
+      <div id="images-help" class="form-text">Válaszd ki a hozzáadandó képeket!</div>
+    </div>
+  <% end %>
+
+  <div class="mt-4 mb-3 btn-toolbar justify-content-between">
+    <%= link_to back_path, class: "btn btn-primary" do %>
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+        <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
+      </svg>
+    <% end %>
+    <%= form.submit class: "btn btn-primary" %>
+  </div>
+<% end %>

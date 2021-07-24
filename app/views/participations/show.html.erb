@@ -1,0 +1,23 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Név:</strong>
+  <%= @participation.user.name %>
+</p>
+
+<p>
+  <strong>Esemény id:</strong>
+  <%= @participation.event_id %>
+</p>
+
+<p>
+  <strong>Ürlap válaszok:</strong>
+  <%= react_component("JsonFormPreview",
+                      { schema:    @participation.event.event_type.schema,
+                        uischema:  @participation.event.event_type.uischema,
+                        form_data: @participation.form_data.to_json },
+                      { prerender: true }) %>
+</p>
+
+<%= link_to 'Edit', edit_participation_path(@participation) %> |
+<%= link_to 'Back', participations_path %>

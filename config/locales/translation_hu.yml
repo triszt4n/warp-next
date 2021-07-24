@@ -1,0 +1,99 @@
+hu:
+  activerecord:
+    models:
+      action_text/rich_text: Műveletszöveg / gazdag szöveg  #g
+      active_storage/attachment: Aktív tárolás / csatolás  #g
+      active_storage/blob: Aktív tárhely / blob  #g
+      album: Album  #g
+      event: Esemény  #g
+      event_type: Esemény típus  #g
+      item: Tétel  #g
+      participation: Részvétel  #g
+      post: Poszt  #g
+      rent: Bérlés  #g
+      user: Felhasználó  #g
+
+    attributes:
+      action_text/rich_text:
+        body: Test  #g
+        embeds_attachments: Beágyazza a mellékleteket  #g
+        embeds_blobs: Foltokat ágyaz  #g
+        name: Név  #g
+        record: :activerecord.models.record  #g
+        record_type: Rekord típusa  #g
+
+      active_storage/attachment:
+        blob: :activerecord.models.blob  #g
+        name: Név  #g
+        record: :activerecord.models.record  #g
+        record_type: Rekord típusa  #g
+
+      active_storage/blob:
+        attachments: Mellékletek  #g
+        byte_size: Bájtméret  #g
+        checksum: Ellenőrző összeg  #g
+        content_type: Tartalom típus  #g
+        filename: Fájl név  #g
+        key: Kulcs  #g
+        metadata: Metaadatok  #g
+        preview_image_attachment: :activerecord.models.preview_image_attachment  #g
+        preview_image_blob: :activerecord.models.preview_image_blob  #g
+
+      album:
+        images_attachments: Képek mellékletei  #g
+        images_blobs: Képek foltok  #g
+        images: Képek
+        title: Cím
+        short_desc: Rövid leírás (opc.)
+        date: Dátum
+
+      event:
+        date: Dátum  #g
+        event_type: :activerecord.models.event_type  #g
+        description: Leírás  #g
+        participations: Részvételek  #g
+        post: :activerecord.models.post  #g
+        users: Felhasználók  #g
+
+      event_type:
+        events: Események  #g
+        form_data: Űrlapadatok  #g
+        name: Név  #g
+
+      item:
+        description: Leírás  #g
+        name: Név  #g
+        rents: Bérleti díjak  #g
+        users: Felhasználók  #g
+
+      participation:
+        event: :activerecord.models.event  #g
+        user: :activerecord.models.user  #g
+
+      post:
+        album: :activerecord.models.album  #g
+        event: :activerecord.models.event  #g
+        rich_text_formatted_document: Formázott dokumentum  #g
+        formatted_document: Formázott dokumentum  #g
+        short_description: Rövid leírás  #g
+        title: Cím  #g
+
+      rent:
+        end_date: Befejezés dátuma  #g
+        item: :activerecord.models.item  #g
+        user: :activerecord.models.user  #g
+
+      user:
+        admin: Rendszergazda  #g
+        email: Email  #g
+        encrypted_password: Titkosított jelszó  #g
+        events: Események  #g
+        items: Tételek  #g
+        name: Név  #g
+        participations: Részvételek  #g
+        provider: Szolgáltató  #g
+        remember_created_at: 'Ne felejtsd el létrehozni itt:'  #g
+        rents: Bérleti díjak  #g
+        reset_password_sent_at: A (z) címre küldött jelszó visszaállítása  #g
+        reset_password_token: Jelszó token visszaállítása  #g
+        uid: Uid  #g

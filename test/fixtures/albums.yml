@@ -1,0 +1,17 @@
+# == Schema Information
+#
+# Table name: albums
+#
+#  id         :bigint           not null, primary key
+#  date       :date
+#  short_desc :string
+#  title      :string(128)
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
+
+one:
+  post_id: 1
+
+two:
+  post_id: 1

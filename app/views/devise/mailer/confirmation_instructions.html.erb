@@ -1,0 +1,5 @@
+<p>Üdv, <%= @email %>!</p>
+
+<p>Erősítse meg jelszavát a linken keresztül:</p>
+
+<p><%= link_to 'Confirm my account', confirmation_url(@resource, confirmation_token: @token) %></p>

@@ -1,0 +1,59 @@
+<%# Header %>
+<% content_for :header do %>
+  <header class="mb-4 mt-3">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10 text-center">
+          <h1 class="fs-1">Galéria</h1>
+          <p class="fs-4">Albumok eseményeinkről</p>
+        </div>
+      </div>
+    </div>
+  </header>
+<% end %>
+
+<%# Button for admins %>
+<% if admin_signed_in? %>
+<div class="row mb-4">
+  <div class="col-12">
+    <%= link_to 'Új album', new_album_path, class: "btn btn-primary float-end" %>
+  </div>
+</div>
+<% end %>
+
+<%# Content %>
+<div class="album">
+  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+    <% @albums.each do |album| %>
+      <div class="col">
+        <div class="card shadow-sm album-card">
+          <%= link_to album do %>
+            <%= image_tag album.thumbnail, class: "bd-placeholder-img card-img-top album-card-thumbnail" %>
+          <% end %>
+          <% if !album.date.nil? %>
+            <div class="bg-secondary text-white shadow fw-bold rounded album-card-date">
+              <%= raw l album.date, format: :albumdate %>
+            </div>
+          <% end %>
+
+          <%# Button for admins %>
+          <% if admin_signed_in? %>
+          <%= link_to album, class: "btn btn-danger album-image-delete shadow", 
+            method: :delete, data: { confirm: 'Valóban el szeretnéd távolítani a teljes albumot?' } do %>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+              <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+              <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+            </svg>
+          <% end %>
+          <% end %>
+
+          <div class="card-body">
+            <%= link_to album, class: "card-title title" do %>
+              <span class="fs-4"><%= album.title %></span>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

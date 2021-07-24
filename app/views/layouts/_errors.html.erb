@@ -1,0 +1,14 @@
+<% if errors.any? %>
+  <div class="alert alert-danger my-4" role="alert">
+    <h4>
+      Error(s) occured (<%= errors.count %>):
+    </h4>
+    <ul class="mb-0">
+      <% errors.full_messages.each do |message| %>
+        <li>
+          <%= message %>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
