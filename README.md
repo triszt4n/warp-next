@@ -2,9 +2,12 @@
 
 The Kir-Dev organization has history with image hosting under the project name 'warp-drive'. This new project aims to fulfill the same purpose: easy Rails application for internal image hosting, mostly needed by the blog-next project.
 
-**NOTES ON WHO CAN USE THIS SITE:**
+**NOTES:**
 * *Only* current and *only* Kir-Dev members are authorized to operate on the website. Please reach out to the *site admins* if you think you should be able to use the website.
 * Site admins have the power to *force_authorize* people, that already tried to sign into the page.
+* Be aware, albums are *shared* and *public* as a default. You can change these properties on the site.
+    * shared: which means every other authorized member can edit the albums
+    * public: which means the album is accessible without authentication (free to view)
 
 Techs:
 * Ruby on Rails
@@ -14,6 +17,8 @@ Techs:
 * Docker
 
 ## Local setup
+
+*note:* This repo uses Ruby 3.0.2, if you use rbenv, install it with `rbenv install 3.0.2`.
 
 ## Create database user
 

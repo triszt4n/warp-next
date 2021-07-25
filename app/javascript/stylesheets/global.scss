@@ -3,31 +3,38 @@
  * Additional classes for the project
  */
 
+.wrapper {
+  min-height: 100vh;
+}
+
 .album-card-thumbnail {
   background: no-repeat center center;
   background-attachment: scroll;
   position: relative;
   background-size: cover;
-  filter: brightness(90%);
+  filter: brightness(50%);
+  transition: all 400ms ease-in-out;
+}
+
+@media screen and (max-width: 464px)  {
+  .album-columns > .column {
+    width: 100%;
+  }
 }
 
 .album-card:hover {
   .album-card-thumbnail {
     filter: brightness(100%);
-    transition: all 200ms;
   }
-}
-
-.album-card-date {
-  position: absolute;
-  top: -0.25rem;
-  left: -0.25rem;
-  padding: .25rem;
-  text-align: center;
 }
 
 .album-image-delete {
   position: absolute;
   top: -0.25rem;
   right: -0.25rem;
+}
+
+.users-table {
+  max-height: 32rem;
+  overflow-y: scroll;
 }

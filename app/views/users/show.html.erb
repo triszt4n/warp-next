@@ -1,34 +1,45 @@
-<p id="notice"><%= notice %></p>
+<h1 class="is-size-1 mb-4 has-text-centered">Felhasználó adatai</h1>
 
-<p>
-  <strong>Uid:</strong>
-  <%= @user.uid %>
-</p>
+<div style="overflow-x: auto;">
+  <table class="table is-hoverable mx-auto">
+    <tbody>
+      <% if is_admin? %>
+        <tr>
+          <td class="has-text-right">Uid:</td>
+          <td><%= @user.uid %></td>
+        </tr>
+      <% end %>
+      <tr>
+        <td class="has-text-right">Név:</td>
+        <td><%= @user.name %></td>
+      </tr>
+      <tr>
+        <td class="has-text-right">E-mail:</td>
+        <td><%= @user.email %></td>
+      </tr>
+      <tr>
+        <td class="has-text-right">Belépés ideje:</td>
+        <td><%= l @user.created_at %></td>
+      </tr>
+      <% if is_admin? %>
+        <tr>
+          <td class="has-text-right">Engedélyezett belépésre:</td>
+          <td><%= @user.authorized? ? "Igen" : "Nem" %></td>
+        </tr>
+        <tr>
+          <td class="has-text-right">Engedélyezett belépésre (force_authorized):</td>
+          <td><%= @user.force_authorized? ? "Igen" : "Nem" %></td>
+        </tr>
+        <tr>
+          <td class="has-text-right">Admin jog:</td>
+          <td><%= @user.admin? ? "Igen" : "Nem" %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
 
-<p>
-  <strong>Email:</strong>
-  <%= @user.email %>
-</p>
-
-<p>
-  <strong>Name:</strong>
-  <%= @user.name %>
-</p>
-
-<p>
-  <strong>authorized:</strong>
-  <%= @user.authorized? %>
-</p>
-
-<p>
-  <strong>force_authorized:</strong>
-  <%= @user.force_authorized? %>
-</p>
-
-<p>
-  <strong>admin:</strong>
-  <%= @user.admin? %>
-</p>
-
-<%= link_to 'Edit', edit_user_path(@user) %> |
-<%= link_to 'Back', users_path %>
+<div class="is-flex is-justify-content-center mt-5">
+  <%= link_to "Vissza", users_path, class: "button mx-2" %>
+  <%= link_to "Felülírás", edit_user_path(@user), class: "button is-warning mx-2" %>
+</div>

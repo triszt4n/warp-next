@@ -1,0 +1,35 @@
+<div class="has-text-right mb-6">
+  <%= link_to 'Új album létrehozása', new_album_path, class: "button" %>
+</div>
+
+<div class="columns is-mobile is-multiline album-columns">
+  <% @albums.each do |album| %>
+    <div class="column mt-3 is-half-mobile is-one-third-tablet is-one-quarter-desktop is-one-fifth-widescreen">
+      <div class="card album-card">
+        <div class="card-image">
+          <figure class="image is-4by3">
+            <%= link_to album do %>
+              <%= image_tag album.thumbnail, class: "album-card-thumbnail" %>
+            <% end %>
+          </figure>
+        </div>
+
+        <%# Button for admins or the owner %>
+        <% if is_admin? || album.user == current_user %>
+          <%= link_to album, class: "button is-danger album-image-delete",
+            method: :delete, data: { confirm: 'Valóban el szeretnéd távolítani a teljes albumot?' } do %>
+            <svg xmlns="http://www.w3.org/2000/svg" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+            </svg>
+          <% end %>
+        <% end %>
+
+        <div class="card-content p-3">
+          <%= link_to album, class: "has-text-weight-semibold" do %>
+            <span class="is-size-4"><%= album.title %></span>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>

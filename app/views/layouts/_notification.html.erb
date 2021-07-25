@@ -1,0 +1,11 @@
+<% if flash[:notice] %>
+  <article class="message is-info">
+    <div class="message-header">
+      <p>Info</p>
+      <button class="delete" type="button" aria-label="delete" onclick="this.parentElement.parentElement.style.display='none'"></button>
+    </div>
+    <div class="message-body">
+      <%= flash[:notice] %>
+    </div>
+  </article>
+<% end %>

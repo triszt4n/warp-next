@@ -1,0 +1,52 @@
+hu:
+  activerecord:
+    models:
+      active_storage/attachment: Aktív tárolás / csatolás  #g
+      active_storage/blob: Aktív tárhely / blob  #g
+      active_storage/variant_record: Aktív tárhely / változatrekord  #g
+      album: Album  #g
+      user: Felhasználó  #g
+
+    attributes:
+      active_storage/attachment:
+        blob: :activerecord.models.blob  #g
+        name: Név  #g
+        record: :activerecord.models.record  #g
+        record_type: Rekord típusa  #g
+
+      active_storage/blob:
+        attachments: Mellékletek  #g
+        byte_size: Bájtméret  #g
+        checksum: Ellenőrző összeg  #g
+        content_type: Tartalom típus  #g
+        filename: Fájl név  #g
+        key: Kulcs  #g
+        metadata: Metaadatok  #g
+        preview_image_attachment: :activerecord.models.preview_image_attachment  #g
+        preview_image_blob: :activerecord.models.preview_image_blob  #g
+        service_name: Szolgáltatás neve  #g
+        variant_records: Változatrekordok  #g
+
+      active_storage/variant_record:
+        blob: :activerecord.models.blob  #g
+        image_attachment: :activerecord.models.image_attachment  #g
+        image_blob: :activerecord.models.image_blob  #g
+        variation_digest: Variáció emésztés  #g
+
+      album:
+        desc: Leírás  #g
+        images_attachments: Képek mellékletei  #g
+        images_blobs: Képek foltok  #g
+        public: Nyilvános  #g
+        shared: Megosztva  #g
+        tag: Címke  #g
+        title: Cím  #g
+        user: :activerecord.models.user  #g
+
+      user:
+        admin: Rendszergazda  #g
+        authorized: Engedélyezett  #g
+        email: Email  #g
+        force_authorized: Force engedélyezett  #g
+        name: Név  #g
+        uid: Uid  #g

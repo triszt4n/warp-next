@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Warp Next</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport"/>
+    <%= favicon_link_tag image_path('favicon.ico') %>
+    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= yield :stylesheets %>
+  </head>
+
+  <body>
+    <main class="container py-6 wrapper">
+      <%= render 'layouts/notification' %>
+      <div class="px-2 mx-auto my-auto">
+        <div class="has-text-centered mt-6">
+          <%= image_tag image_path('favicon.svg'), size: "128" %>
+        </div>
+        <div class="has-text-centered is-size-1 mt-4">Warp Next</div>
+        <div class="has-text-centered is-size-5 mt-2">
+          A <%= link_to 'Kir-Dev', 'https://kir-dev.sch.bme.hu' %> image hosting <%= link_to 'szerverének', 'https://github.com/kir-dev/warp-next' %> adminisztrációs felülete
+        </div>
+        <div class="mt-5">
+          <%= link_to "AuthSCH bejelentkezés", login_path, class: "button is-success is-fullwidth" %>
+        </div>
+        <div class="has-text-centered mt-6">
+          <%= image_tag image_path('kirdev.svg'), size: "128" %>
+          <div>&copy; 2021</div>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

@@ -21,6 +21,7 @@ Bundler.require(*Rails.groups)
 
 module Warp
   class Application < Rails::Application
+    config.i18n.default_locale = :hu
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 6.0
 

@@ -1,32 +1,26 @@
 <%= form_with(model: user, local: true) do |form| %>
-  <% if user.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(user.errors.count, "error") %> prohibited this user from being saved:</h2>
-
-      <ul>
-        <% user.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
+  <%= render 'layouts/errors', errors: user.errors %>
 
   <div class="field">
-    <%= form.label :uid %>
-    <%= form.text_field :uid %>
+    <%= form.label :force_authorized, class: "label" do %>
+      <%= form.check_box :force_authorized %>
+      Belépési engedély kényszerítése (force_authorized)
+    <% end %>
   </div>
 
   <div class="field">
-    <%= form.label :email %>
-    <%= form.text_field :email %>
+    <%= form.label :admin, class: "label" do %>
+      <%= form.check_box :admin %>
+      Adminisztrátori jog
+    <% end %>
   </div>
 
-  <div class="field">
-    <%= form.label :name %>
-    <%= form.text_field :name %>
+  <div class="my-4 has-text-danger">
+    Jól nézz utána, vagy kérdezz meg egy senior Kir-Dev tagot, mivel járnak az itt eszközölt változtatások!
   </div>
 
-  <div class="actions">
-    <%= form.submit %>
+  <div class="is-flex is-justify-content-space-between mt-5">
+    <%= link_to "Vissza", user_path(user), class: "button" %>
+    <%= form.submit class: "button is-success" %>
   </div>
 <% end %>

@@ -1,0 +1,91 @@
+<div class="mb-5">
+  <div class="is-flex is-flex-wrap-wrap">
+    <div class="is-size-2 mr-2">
+      <%= @album.title %>
+    </div>
+    <% unless @album.tag.nil? %>
+      <div class="is-flex-grow-1 is-flex is-justify-content-flex-end">
+        <span class="tag is-info is-medium">
+          #<%= @album.tag %>
+        </span>
+      </div>
+    <% end %>
+  </div>
+  <p class="is-size-5 mt-3">
+    <%= @album.desc %>
+  </p>
+</div>
+
+<% if is_admin? || @album.user == current_user then %>
+  <div class="has-text-right">
+    <div class="dropdown is-hoverable is-right">
+      <div class="dropdown-trigger">
+        <button class="button" aria-haspopup="true" aria-controls="dropdown-menu6">
+          <span>Lehetőségek...</span>
+          <span class="icon is-small">
+            <svg xmlns="http://www.w3.org/2000/svg" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </span>
+        </button>
+      </div>
+      <div class="dropdown-menu" id="dropdown-menu6" role="menu">
+        <div class="dropdown-content">
+          <a type="button" class="dropdown-item" id="modalButton">
+            Kép(ek) hozzáadása
+          </a>
+          <%= link_to "Tulajdonságok módosítása", edit_album_path(@album), class: "dropdown-item" %>
+          <hr class="dropdown-divider">
+          <%= link_to("Album törlése", @album, class: "has-text-danger dropdown-item",
+            method: :delete, data: { confirm: "Biztosan törlöd az egész albumot?" }) %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
+
+<div class="columns is-mobile is-multiline album-columns my-5" id="content">
+  <% @album.images.each do |image| %>
+    <div class="column mt-3 is-half-mobile is-one-third-tablet is-one-quarter-desktop is-one-fifth-widescreen">
+      <div class="card album-card">
+        <div class="card-image">
+          <figure class="image">
+            <%= image_tag image, class: "is-clickable album-image" %>
+          </figure>
+        </div>
+
+        <% if is_admin? || @album.user == current_user then %>
+          <%= link_to delete_image_album_url(image_id: image.id), class: "button is-danger album-image-delete",
+            method: :delete, data: { confirm: 'Valóban el szeretnéd távolítani a képet?' } do %>
+            <svg xmlns="http://www.w3.org/2000/svg" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+            </svg>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<% if @album.images.empty? %>
+  <div class="is-size-5 has-text-centered my-6">
+    Üres album - Adj hozzá képeket!
+  </div>
+<% end %>
+
+<% content_for :javascripts do %>
+  <% if is_admin? || @album.user == current_user then %>
+    <%= render 'modal', album: @album %>
+  <% end %>
+
+  <%= render 'photoswipe' %>
+
+  <script>
+    images = <%= @album.images.map { |i|
+      { src: url_for(i), w: i.metadata["width"], h: i.metadata["height"] }
+    }.to_json.html_safe %>
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js"></script>
+  <script src="https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js"></script>
+  <%= javascript_pack_tag 'album-show', 'data-turbolinks-track': 'reload' %>
+<% end %>

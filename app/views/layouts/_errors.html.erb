@@ -1,0 +1,17 @@
+<% if errors.any? %>
+  <article class="message is-danger">
+    <div class="message-header">
+      <p>Error(s) occured (<%= errors.count %>):</p>
+      <button class="delete" type="button" aria-label="delete" onclick="this.parentElement.parentElement.style.display='none'"></button>
+    </div>
+    <div class="message-body">
+      <ul class="mb-0">
+        <% errors.full_messages.each do |message| %>
+          <li>
+            <%= message %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </article>
+<% end %>
