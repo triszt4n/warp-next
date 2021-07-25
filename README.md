@@ -2,6 +2,10 @@
 
 The Kir-Dev organization has history with image hosting under the project name 'warp-drive'. This new project aims to fulfill the same purpose: easy Rails application for internal image hosting, mostly needed by the blog-next project.
 
+**NOTES ON WHO CAN USE THIS SITE:**
+* *Only* current and *only* Kir-Dev members are authorized to operate on the website. Please reach out to the *site admins* if you think you should be able to use the website.
+* Site admins have the power to *force_authorize* people, that already tried to sign into the page.
+
 Techs:
 * Ruby on Rails
 * Primer CSS (by GitHub)
@@ -34,7 +38,7 @@ rails s # serve application
     mv .env.example .env
     ```
 2. Navigate to Developer console on [the AuthSCH admin page](https://auth.sch.bme.hu).
-3. Create a new OAuth client, set the callback url to `http://localhost:3000/users/auth/authsch/callback`
+3. Create a new OAuth client, set the callback url to `http://localhost:3000/auth/oauth/callback`
 4. Copy the received **client id** and **client secret** into the `.env` file, and restart your server app.
 
 ## Docker

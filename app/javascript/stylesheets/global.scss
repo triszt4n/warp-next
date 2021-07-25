@@ -1,0 +1,33 @@
+/**
+ * @author triszt4n
+ * Additional classes for the project
+ */
+
+.album-card-thumbnail {
+  background: no-repeat center center;
+  background-attachment: scroll;
+  position: relative;
+  background-size: cover;
+  filter: brightness(90%);
+}
+
+.album-card:hover {
+  .album-card-thumbnail {
+    filter: brightness(100%);
+    transition: all 200ms;
+  }
+}
+
+.album-card-date {
+  position: absolute;
+  top: -0.25rem;
+  left: -0.25rem;
+  padding: .25rem;
+  text-align: center;
+}
+
+.album-image-delete {
+  position: absolute;
+  top: -0.25rem;
+  right: -0.25rem;
+}

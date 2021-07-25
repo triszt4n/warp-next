@@ -1,11 +1,13 @@
 {
-  "name": "warp",
+  "name": "warp-next",
   "private": true,
   "dependencies": {
+    "@primer/css": "^17.4.0",
     "@rails/actioncable": "^6.0.0",
     "@rails/activestorage": "^6.0.0",
     "@rails/ujs": "^6.0.0",
     "@rails/webpacker": "4.3.0",
+    "photoswipe": "^4.1.3",
     "turbolinks": "^5.2.0"
   },
   "version": "0.1.0",
