@@ -1,0 +1,38 @@
+version: '3.3'
+services:
+  db:
+    image: postgres:13.0
+    restart: always
+    environment:
+      POSTGRES_USER: warp
+      POSTGRES_PASSWORD: CHANGE-ME
+    volumes:
+      - database_folder:/var/lib/postgresql/data
+    networks:
+      - warp_net
+  web:
+    build: .
+    command: bundle exec rails s -p 3000 -b '0.0.0.0'
+    environment:
+      - RAILS_SERVE_STATIC_FILES=true
+      - RAILS_ENV=production
+      - DATABASE_PASSWORD=CHANGE-ME
+      - DATABASE_HOST=db
+    restart: always
+    ports:
+      - "3222:3000"
+    networks:
+      - warp_net
+    depends_on:
+      - db
+    volumes:
+      - image_folder:/warp/storage/
+networks:
+  warp_net:
+volumes:
+  database_folder:
+    external:
+      name: warp_db
+  image_folder:
+    external:
+      name: warp_images
