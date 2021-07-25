@@ -1,7 +1,8 @@
 class AlbumsController < ApplicationController
   before_action :set_album, only: %i[ edit update destroy delete_image add_image ]
   before_action :login_required
-  before_action :admin_or_owner_required, only: %i[ edit update destroy delete_image add_image ]
+  before_action :admin_or_owner_required, only: %i[ edit update destroy ]
+  before_action :admin_or_owner_or_shared_required, only: %i[ delete_image add_image ]
   attr_accessor :render_target
   after_action :analyze_album, only: %i[ create add_image ]
 
@@ -12,7 +13,7 @@ class AlbumsController < ApplicationController
 
   # GET /albums/myalbums
   def myalbums
-    @albums = Album.where(user: current_user)
+    @albums = Album.where(user: current_user).order(created_at: :desc)
     render :index
   end
 
@@ -91,6 +92,13 @@ class AlbumsController < ApplicationController
     # Allow only owner or admin
     def admin_or_owner_required
       unless current_user == @album.user || is_admin? then
+        redirect_to @album, notice: "Nincs jogosultságod az funkcióhoz!"
+      end
+    end
+
+    # Allow for shared
+    def admin_or_owner_or_shared_required
+      unless current_user == @album.user || is_admin? || @album.shared? then
         redirect_to @album, notice: "Nincs jogosultságod az funkcióhoz!"
       end
     end

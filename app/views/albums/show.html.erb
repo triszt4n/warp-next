@@ -16,7 +16,7 @@
   </p>
 </div>
 
-<% if is_admin? || @album.user == current_user then %>
+<% if is_admin? || @album.user == current_user || @album.shared? then %>
   <div class="has-text-right">
     <div class="dropdown is-hoverable is-right">
       <div class="dropdown-trigger">
@@ -34,10 +34,12 @@
           <a type="button" class="dropdown-item" id="modalButton">
             Kép(ek) hozzáadása
           </a>
-          <%= link_to "Tulajdonságok módosítása", edit_album_path(@album), class: "dropdown-item" %>
-          <hr class="dropdown-divider">
-          <%= link_to("Album törlése", @album, class: "has-text-danger dropdown-item",
-            method: :delete, data: { confirm: "Biztosan törlöd az egész albumot?" }) %>
+          <% if is_admin? || @album.user == current_user then %>
+            <%= link_to "Tulajdonságok módosítása", edit_album_path(@album), class: "dropdown-item" %>
+            <hr class="dropdown-divider">
+            <%= link_to("Album törlése", @album, class: "has-text-danger dropdown-item",
+              method: :delete, data: { confirm: "Biztosan törlöd az egész albumot?" }) %>
+          <% end %>
         </div>
       </div>
     </div>
@@ -54,7 +56,7 @@
           </figure>
         </div>
 
-        <% if is_admin? || @album.user == current_user then %>
+        <% if is_admin? || @album.user == current_user || @album.shared? then %>
           <%= link_to delete_image_album_url(image_id: image.id), class: "button is-danger album-image-delete",
             method: :delete, data: { confirm: 'Valóban el szeretnéd távolítani a képet?' } do %>
             <svg xmlns="http://www.w3.org/2000/svg" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
