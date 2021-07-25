@@ -7,7 +7,7 @@ The Kir-Dev organization has history with image hosting under the project name '
 * Site admins have the power to *force_authorize* people, that already tried to sign into the page.
 * Be aware, albums are *shared* and *public* as a default. You can change these properties on the site.
     * shared: which means every other authorized member can edit the albums
-    * public: which means the album is accessible without authentication (free to view)
+    * public: which means the album is accessible to the internet (NOT FUNCTIONAL, every image is public by default and will stay as is, [but no worries](https://edgeguides.rubyonrails.org/active_storage_overview.html#serving-files))
 
 Techs:
 * Ruby on Rails
@@ -36,6 +36,17 @@ rails db:setup # setup the database
 rails s # serve application
 ```
 
+#### Docker database
+
+You might be wanting to use docker for containerizing the postgres DBMS instead of installing one yourself:
+
+```bash
+docker volume create --name=warp_db # create the persistent database volume
+docker-compose --file docker-compose.dev.yml up --build -d # run ONLY the database container
+```
+
+After creating the database container you have to set up the database from the console (see above).
+
 ### AuthSCH setup
 
 1. Copy `.env.example` as `.env`:
@@ -45,17 +56,6 @@ rails s # serve application
 2. Navigate to Developer console on [the AuthSCH admin page](https://auth.sch.bme.hu).
 3. Create a new OAuth client, set the callback url to `http://localhost:3000/auth/oauth/callback`
 4. Copy the received **client id** and **client secret** into the `.env` file, and restart your server app.
-
-## Docker
-
-```bash
-docker volume create --name=warp_db # create the persistent database volume
-docker-compose --file docker-compose.dev.yml up --build -d # run ONLY the database container
-```
-
-The database is accessible on port `5433`, so you might need to update the port in `config/database.yml`.
-
-After creating the database container you have to set up the database from the console (see above).
 
 ## Disclaimer
 
