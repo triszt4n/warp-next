@@ -9,7 +9,6 @@ class SessionsController < ApplicationController
   end
 
   def create
-    puts "Callback"
     raw_user = request.env['omniauth.auth']['extra']['raw_info']
 
     # Authorize only current and only Kir-Dev members

@@ -3,43 +3,47 @@
 <div style="overflow-x: auto;">
   <table class="table is-hoverable mx-auto">
     <tbody>
-      <% if is_admin? %>
-        <tr>
-          <td class="has-text-right">Uid:</td>
-          <td><%= @user.uid %></td>
-        </tr>
-      <% end %>
+    <% if is_admin? %>
       <tr>
-        <td class="has-text-right">Név:</td>
-        <td><%= @user.name %></td>
+        <td class="has-text-right">Uid:</td>
+        <td><%= @user.uid %></td>
+      </tr>
+    <% end %>
+    <tr>
+      <td class="has-text-right">Név:</td>
+      <td><%= @user.name %></td>
+    </tr>
+    <tr>
+      <td class="has-text-right">E-mail:</td>
+      <td><%= @user.email %></td>
+    </tr>
+    <tr>
+      <td class="has-text-right">Belépés ideje:</td>
+      <td><%= l @user.created_at %></td>
+    </tr>
+    <% if is_admin? %>
+      <tr>
+        <td class="has-text-right">Engedélyezett belépésre:</td>
+        <td><%= @user.authorized? ? "Igen" : "Nem" %></td>
       </tr>
       <tr>
-        <td class="has-text-right">E-mail:</td>
-        <td><%= @user.email %></td>
+        <td class="has-text-right">Engedélyezett belépésre (force_authorized):</td>
+        <td><%= @user.force_authorized? ? "Igen" : "Nem" %></td>
       </tr>
       <tr>
-        <td class="has-text-right">Belépés ideje:</td>
-        <td><%= l @user.created_at %></td>
+        <td class="has-text-right">Admin jog:</td>
+        <td><%= @user.admin? ? "Igen" : "Nem" %></td>
       </tr>
-      <% if is_admin? %>
-        <tr>
-          <td class="has-text-right">Engedélyezett belépésre:</td>
-          <td><%= @user.authorized? ? "Igen" : "Nem" %></td>
-        </tr>
-        <tr>
-          <td class="has-text-right">Engedélyezett belépésre (force_authorized):</td>
-          <td><%= @user.force_authorized? ? "Igen" : "Nem" %></td>
-        </tr>
-        <tr>
-          <td class="has-text-right">Admin jog:</td>
-          <td><%= @user.admin? ? "Igen" : "Nem" %></td>
-        </tr>
-      <% end %>
+    <% end %>
     </tbody>
   </table>
 </div>
 
 <div class="is-flex is-justify-content-center mt-5">
-  <%= link_to "Vissza", users_path, class: "button mx-2" %>
+  <% if is_admin? %>
+    <%= link_to "Vissza", adminpage_users_path, class: "button mx-2" %>
+  <% else %>
+    <%= link_to "Vissza", root_path, class: "button mx-2" %>
+  <% end %>
   <%= link_to "Felülírás", edit_user_path(@user), class: "button is-warning mx-2" %>
 </div>
