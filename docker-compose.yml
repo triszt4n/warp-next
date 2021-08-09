@@ -17,7 +17,7 @@ services:
     env_file:
       - .env
     environment:
-      RAILS_SERVE_STATIC_FILES: true
+      RAILS_SERVE_STATIC_FILES: "true"
       RAILS_ENV: production
       DATABASE_HOST: db
     restart: always
