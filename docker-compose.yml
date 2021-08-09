@@ -22,7 +22,7 @@ services:
       DATABASE_HOST: db
     restart: always
     ports:
-      - "3222:3000"
+      - "3002:3000"
     networks:
       - warp_net
     depends_on:
