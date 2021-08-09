@@ -3,9 +3,10 @@ services:
   db:
     image: postgres:13.3
     restart: always
+    env_file:
+      - .env
     environment:
       POSTGRES_USER: warp
-      POSTGRES_PASSWORD: CHANGE-ME
     volumes:
       - database_folder:/var/lib/postgresql/data
     networks:
@@ -13,13 +14,12 @@ services:
   web:
     build: .
     command: bundle exec rails s -p 3000 -b '0.0.0.0'
+    env_file:
+      - .env
     environment:
-      - RAILS_SERVE_STATIC_FILES=true
-      - RAILS_ENV=production
-      - DATABASE_PASSWORD=CHANGE-ME
-      - DATABASE_HOST=db
-      - CLIENT_ID=1456
-      - CLIENT_SECRET=VERY-SECRET
+      RAILS_SERVE_STATIC_FILES: true
+      RAILS_ENV: production
+      DATABASE_HOST: db
     restart: always
     ports:
       - "3222:3000"
