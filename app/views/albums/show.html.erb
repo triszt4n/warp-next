@@ -14,6 +14,13 @@
   <p class="is-size-5 mt-3">
     <%= @album.desc %>
   </p>
+  <p class="is-size-6 mt-3">
+    Használd a 
+    <svg xmlns="http://www.w3.org/2000/svg" height="20" fill="none" viewBox="0 2 24 20" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+    </svg>
+    gombot a kép elérési címének vágólapra másolásához!
+  </p>
 </div>
 
 <% if logged_in_as_admin? || @album.user == current_user || @album.shared? then %>
@@ -57,12 +64,17 @@
         </div>
 
         <% if logged_in_as_admin? || @album.user == current_user || @album.shared? then %>
-          <%= link_to delete_image_album_url(image_id: image.id), class: "button is-danger album-image-delete",
+          <%= link_to delete_image_album_url(image_id: image.id), class: "button is-danger p-3 album-image-delete",
             method: :delete, data: { confirm: 'Valóban el szeretnéd távolítani a képet?' } do %>
-            <svg xmlns="http://www.w3.org/2000/svg" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg xmlns="http://www.w3.org/2000/svg" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
             </svg>
           <% end %>
+          <button type="button" class="button is-success p-3 album-image-clipboard" data-url="<%= url_for(image) %>" id="clipboardButton">
+            <svg xmlns="http://www.w3.org/2000/svg" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+            </svg>
+          </button>
         <% end %>
       </div>
     </div>
