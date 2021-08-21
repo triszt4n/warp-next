@@ -3,6 +3,7 @@ Rails.application.routes.draw do
     member do
       delete :delete_image
       post :add_image
+      get :image
     end
     collection do
       get :myalbums
