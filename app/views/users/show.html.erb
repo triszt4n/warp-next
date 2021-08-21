@@ -3,7 +3,7 @@
 <div style="overflow-x: auto;">
   <table class="table is-hoverable mx-auto">
     <tbody>
-    <% if is_admin? %>
+    <% if logged_in_as_admin? %>
       <tr>
         <td class="has-text-right">Uid:</td>
         <td><%= @user.uid %></td>
@@ -21,7 +21,7 @@
       <td class="has-text-right">Belépés ideje:</td>
       <td><%= l @user.created_at %></td>
     </tr>
-    <% if is_admin? %>
+    <% if logged_in_as_admin? %>
       <tr>
         <td class="has-text-right">Engedélyezett belépésre:</td>
         <td><%= @user.authorized? ? "Igen" : "Nem" %></td>
@@ -40,7 +40,7 @@
 </div>
 
 <div class="is-flex is-justify-content-center mt-5">
-  <% if is_admin? %>
+  <% if logged_in_as_admin? %>
     <%= link_to "Vissza", adminpage_users_path, class: "button mx-2" %>
   <% else %>
     <%= link_to "Vissza", root_path, class: "button mx-2" %>

@@ -26,7 +26,7 @@
 
         <div class="navbar-dropdown is-right">
           <%= link_to "Felhasználói adatok", user_path(current_user), class: 'navbar-item' %>
-          <% if is_admin? %>
+          <% if logged_in_as_admin? %>
             <%= link_to "Adminisztrátori oldal", adminpage_users_path, class: 'navbar-item' %>
           <% end %>
           <hr class="navbar-divider">

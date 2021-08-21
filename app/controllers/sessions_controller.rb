@@ -8,11 +8,11 @@ class SessionsController < ApplicationController
     redirect_to root_url
   end
 
+  # rubocop:disable Metrics/AbcSize
   def create
     raw_user = request.env['omniauth.auth']['extra']['raw_info']
-
     # Authorize only current and only Kir-Dev members
-    kirdev_membership = raw_user['eduPersonEntitlement'].find { |e| e.name == "KIR fejlesztők és üzemeltetők" }
+    kirdev_membership = raw_user['eduPersonEntitlement'].find { |e| e.name == 'KIR fejlesztők és üzemeltetők' }
     authorized = kirdev_membership.end.nil?
 
     @user = User.find_or_create_by(uid: raw_user['internal_id']) do |u|
@@ -21,15 +21,14 @@ class SessionsController < ApplicationController
       u.authorized = authorized
     end
 
-    if @user.authorized? || @user.force_authorized? || @user.admin? then
+    if @user.authorized? || @user.force_authorized? || @user.admin?
       session[:user_id] = @user.id
       redirect_to root_path
+    elsif kirdev_membership.nil?
+      redirect_to root_path, notice: 'Nincs jogosultságod: Nem vagy Kir-Dev tag!'
     else
-      if kirdev_membership.nil? then
-        redirect_to root_path, notice: "Nincs jogosultságod: Nem vagy Kir-Dev tag!"
-      else
-        redirect_to root_path, notice: "Nincs jogosultságod: Lejárt Kir-Dev tagságod!"
-      end
+      redirect_to root_path, notice: 'Nincs jogosultságod: Lejárt Kir-Dev tagságod!'
     end
   end
+  # rubocop:enable Metrics/AbcSize
 end
