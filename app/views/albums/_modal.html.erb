@@ -3,7 +3,7 @@
   <div class="modal-card">
     <header class="modal-card-head">
       <p class="modal-card-title">Adj hozzá kép(ek)et albumodhoz!</p>
-      <button class="delete" aria-label="close"></button>
+      <button class="delete" aria-label="close" id="closeButton"></button>
     </header>
     <%= form_with(url: add_image_album_path, method: :post) do |form| %>
       <section class="modal-card-body">
@@ -36,5 +36,5 @@
       </footer>
     <% end %>
   </div>
-  <button class="modal-close is-large" aria-label="close"></button>
+  <button class="modal-close is-large" aria-label="close" id="closeButton"></button>
 </div>
