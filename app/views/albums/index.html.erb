@@ -22,7 +22,12 @@
 
 <div class="columns is-mobile is-multiline album-columns">
   <% @albums.each do |album| %>
-    <div class="column mt-3 is-half-mobile is-one-third-tablet is-one-quarter-desktop is-one-fifth-widescreen" id="albumColumn" data-title="<%= album.title %>">
+    <div 
+      class="column mt-3 is-half-mobile is-one-third-tablet is-one-quarter-desktop is-one-fifth-widescreen" 
+      id="albumColumn" 
+      data-title="<%= album.title %>"
+      data-desc="<%= album.desc %>"
+    >
       <div class="card album-card">
         <div class="card-image">
           <figure class="image is-4by3">
