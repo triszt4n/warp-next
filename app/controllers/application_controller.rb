@@ -4,10 +4,10 @@ class ApplicationController < ActionController::Base
   end
   helper_method :logged_in?
 
-  def is_admin?
+  def logged_in_as_admin?
     current_user&.admin?
   end
-  helper_method :is_admin?
+  helper_method :logged_in_as_admin?
 
   def current_user
     @current_user ||= User.find(session[:user_id]) if logged_in?
@@ -15,15 +15,12 @@ class ApplicationController < ActionController::Base
   helper_method :current_user
 
   protected
-    def login_required
-      unless logged_in?
-        redirect_to root_path, notice: "Be kell jelentkezned!"
-      end
-    end
 
-    def admin_required
-      unless is_admin?
-        redirect_to root_path, notice: "Nincs jogosultságod az oldalhoz!"
-      end
-    end
+  def login_required
+    redirect_to root_path, notice: 'Be kell jelentkezned!' unless logged_in?
+  end
+
+  def admin_required
+    redirect_to root_path, notice: 'Nincs jogosultságod az oldalhoz!' unless logged_in_as_admin?
+  end
 end
