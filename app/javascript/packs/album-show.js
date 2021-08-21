@@ -93,9 +93,16 @@ class BulmaModal {
 
 const btn = document.querySelector("#modalButton")
 const mdl = new BulmaModal("#myModal")
+const closeBtns = document.querySelectorAll("#closeButton")
 
 btn.addEventListener("click", function () {
 	mdl.show()
+})
+
+closeBtns.forEach((btn) => {
+	btn.addEventListener("click", function () {
+		mdl.close()
+	})
 })
 
 mdl.addEventListener('modal:show', function() {
