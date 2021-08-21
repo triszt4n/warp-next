@@ -128,6 +128,6 @@ const clipboardBtns = document.querySelectorAll("#clipboardButton")
 
 clipboardBtns.forEach((btn) => {
 	btn.addEventListener("click", (e) => {
-		navigator.clipboard.writeText(`${window.location.origin}${btn.dataset.url}`)
+		navigator.clipboard.writeText(`${window.location.href}/image?image_id=${btn.dataset.imageId}`)
 	})
 })
