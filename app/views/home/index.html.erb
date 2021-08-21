@@ -19,12 +19,17 @@
         <div class="has-text-centered mt-6">
           <%= image_tag image_path('favicon.svg'), size: "128" %>
         </div>
-        <div class="has-text-centered is-size-1 mt-4">Warp Next</div>
+        <div class="has-text-centered is-size-1 mt-4">Warp drive</div>
         <div class="has-text-centered is-size-5 mt-2">
-          A <%= link_to 'Kir-Dev', 'https://kir-dev.sch.bme.hu' %> image hosting <%= link_to 'szerverének', 'https://github.com/kir-dev/warp-next' %> adminisztrációs felülete
+          A <%= link_to 'Kir-Dev', 'https://kir-dev.sch.bme.hu', target: '_blank' %> image hosting
+          <%= link_to 'szerverének', 'https://github.com/kir-dev/warp-next', target: '_blank' %> adminisztrációs felülete
         </div>
-        <div class="mt-5">
-          <%= link_to "AuthSCH bejelentkezés", login_path, class: "button is-success is-fullwidth" %>
+        <div class="has-text-centered is-size-6 mt-2">
+          A belépés csak jelenleg aktív Kir-Dev tagoknak engedélyezett!<br />
+          Külön engedélyért fordulj a Warp drive adminisztrátoraihoz.
+        </div>
+        <div class="has-text-centered mt-5">
+          <%= link_to "AuthSCH bejelentkezés", login_path, class: "button is-success px-5" %>
         </div>
         <div class="has-text-centered mt-6">
           <%= image_tag image_path('kirdev.svg'), size: "128" %>
