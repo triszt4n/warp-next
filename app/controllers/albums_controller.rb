@@ -10,11 +10,13 @@ class AlbumsController < ApplicationController
   # GET /albums
   def index
     @albums = Album.all.order(created_at: :desc)
+    @title = 'Minden album'
   end
 
   # GET /albums/myalbums
   def myalbums
     @albums = Album.where(user: current_user).order(created_at: :desc)
+    @title = 'Albumaim'
     render :index
   end
 
