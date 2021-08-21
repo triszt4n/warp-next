@@ -5,7 +5,7 @@ class UsersController < ApplicationController
 
   # GET /users/adminpage
   def adminpage
-    @authorized_users = User.where(authorized: true).order(created_at: :desc)
+    @authorized_users = User.where(authorized: true).or(User.where(force_authorized: true)).order(created_at: :desc)
     @unauthorized_users = User.where(authorized: false).order(created_at: :desc)
     @album_count = Album.count(:all)
     @image_count = Album.all.sum { |album| album.images.length }
