@@ -65,10 +65,12 @@ class AlbumsController < ApplicationController
     redirect_to albums_url, notice: 'Album sikeresen törölve.'
   end
 
-  # GET /albums/1?image_id=1
+  # GET /albums/1/image?image_id=1
   def image
-    image = ActiveStorage::Attachment.find(params[:image_id])
-    redirect_to url_for(image)
+    render json: {
+      url: url_for(ActiveStorage::Attachment.find(params[:image_id])),
+      filename: ActiveStorage::Attachment.find(params[:image_id]).blob.filename
+    }
   end
 
   # DELETE one image of the album
