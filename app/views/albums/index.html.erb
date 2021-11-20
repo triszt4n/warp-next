@@ -32,7 +32,7 @@
         <div class="card-image">
           <figure class="image is-4by3">
             <%= link_to album do %>
-              <%= image_tag album.thumbnail, class: "album-card-thumbnail" %>
+              <%= image_tag url_for(album.thumbnail), class: "album-card-thumbnail" %>
             <% end %>
           </figure>
         </div>
