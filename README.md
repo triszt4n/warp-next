@@ -8,6 +8,8 @@ The Kir-Dev organization has history with image hosting under the project name '
 * Be aware, albums are *shared* and *public* as a default. You can change these properties on the site.
     * shared: which means every other authorized member can edit the albums
     * public: which means the album is accessible to the internet (NOT FUNCTIONAL, every image is public by default and will stay as is, [but no worries](https://edgeguides.rubyonrails.org/active_storage_overview.html#serving-files))
+* After long research it is not clear to me, if it would be possible to create shorter urls for the images with custom endpoint on our album controller, but it is free for all to prove me wrong with a solution. /triszt4n/
+  * So that's why the "copy" button is designed, only so that after uploading you could also get instantly that long url for yourself to use it in a blog post or something like that.
 
 Techs:
 * Ruby on Rails
@@ -60,4 +62,4 @@ After creating the database container you have to set up the database from the c
 ## Disclaimer
 
 * No testing yet
-* When deployed, db should be saved sometimes
+* When deployed, db and web container's warp-next/storage directory (with the images) should be saved sometimes
