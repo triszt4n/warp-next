@@ -10,7 +10,7 @@ services:
     volumes:
       - database_folder:/var/lib/postgresql/data
     networks:
-      - warp_net
+      - warp-next_net
   web:
     build: .
     command: sh -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
@@ -24,17 +24,17 @@ services:
     ports:
       - "3002:3000"
     networks:
-      - warp_net
+      - warp-next_net
     depends_on:
       - db
     volumes:
-      - image_folder:/warp/storage/
+      - image_folder:/warp-next/storage/
 networks:
-  warp_net:
+  warp-next_net:
 volumes:
   database_folder:
     external:
-      name: warp_db
+      name: warp-next_db
   image_folder:
     external:
-      name: warp_images
+      name: warp-next_images
