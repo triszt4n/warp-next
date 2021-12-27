@@ -10,9 +10,14 @@ class ApplicationController < ActionController::Base
   helper_method :has_circle?
 
   def is_in_circle?(circle)
-    current_user&.circles.any? { |c| c.id == circle.id }
+    not current_user&.circles.where(id: circle.id).empty?
   end
   helper_method :is_in_circle?
+
+  def is_accepted_in_circle?(circle)
+    current_user&.memberships.any? { |m| m.circle == circle && m.accepted? }
+  end
+  helper_method :is_accepted_in_circle?
 
   def logged_in_as_site_admin?
     current_user&.site_admin?

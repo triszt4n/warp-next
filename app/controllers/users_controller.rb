@@ -6,6 +6,7 @@ class UsersController < ApplicationController
   # GET /users/adminpage
   def adminpage
     @users = User.all.order(created_at: :desc)
+    @circles = Circle.all
     @album_count = Album.count(:all)
     @image_count = Album.all.sum { |album| album.images.length }
     @public_image_count = Album.all.sum { |album| album.images.length if album.public? }

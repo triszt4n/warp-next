@@ -1,21 +1,16 @@
-<div class="mb-5">
-  <div class="is-flex is-flex-wrap-wrap">
-    <div class="is-size-2">
-      <%= @circle.name %>
-    </div>
+<div class="mb-5 is-flex is-justify-content-space-between is-flex-wrap-wrap" style="max-width:100vw;">
+  <div class=" px-3">
+    <p class="is-size-2"><%= @circle.name %></p>
+    <%= link_to 'Albumok', @circle %> (<%= @circle.albums.length %> db)
   </div>
-  <div class="my-2">
-    <figure class="image is-4by3">
-      <%= link_to circle do %>
-        <%= image_tag url_for(circle.thumbnail), class: "album-card-thumbnail" %>
-      <% end %>
-    </figure>
-  </div>
+  <figure class="image is-128x128">
+    <%= image_tag url_for(@circle.logo) %>
+  </figure>
 </div>
 
-<% if @circle.memberships.empty? then %>
+<% if @circle.memberships.empty? %>
   <p class="my-6">Nincsenek tagok.</p>
-<% else if logged_in_as_admin_of(@circle)? then %>
+<% else %>
   <div class="users-table my-5">
     <table class="table is-hoverable is-striped is-fullwidth">
       <thead>
@@ -23,27 +18,49 @@
           <th>Név</th>
           <th>E-mail</th>
           <th>Belépés ideje</th>
-          <% if logged_in_as_admin_of(@circle)? then %>
-            <th></th>
-          <% end %>
+          <th></th>
         </tr>
       </thead>
 
       <tbody>
         <% @circle.memberships.each do |membership| %>
           <tr>
-            <td><%= link_to membership.user.name, membership.user %></td>
+            <td>
+              <%= link_to membership.user.name, membership.user %>
+              <%= membership.accepted? ? '' : ' [PENDING]' %>
+              <%= membership.admin? ? ' [ADMIN]' : '' %>
+            </td>
             <td><%= membership.user.email %></td>
             <td><%= l membership.user.created_at %></td>
-            <% if logged_in_as_admin_of(@circle)? then %>
-              <td class="has-text-right">
-                <%= link_to membership, method: :delete, data: { confirm: 'Valóban törlöd a tagságát a felhasználónak?' }, class: "button is-small is-danger" do %>
+            <td class="has-text-right">
+              <% unless membership.accepted? %>
+                <%= link_to accept_membership_path(membership), method: :post, data: { confirm: 'Valóban taggá teszed a felhasználót?' }, class: "button is-small is-success" do %>
                   <svg xmlns="http://www.w3.org/2000/svg" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                   </svg>
                 <% end %>
-              </td>
-            <% end %>
+              <% end %>
+
+              <% if membership.admin? %>
+                <%= link_to demote_membership_path(membership), method: :post, data: { confirm: 'Valóban elveszed a felhasználó köradmin jogát?' }, class: "button is-small is-danger is-outlined" do %>
+                  <svg xmlns="http://www.w3.org/2000/svg" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 13l-7 7-7-7m14-8l-7 7-7-7" />
+                  </svg>
+                <% end %>
+              <% else %>
+                <%= link_to promote_membership_path(membership), method: :post, data: { confirm: 'Valóban köradminná teszed a felhasználót?' }, class: "button is-small is-success is-outlined" do %>
+                  <svg xmlns="http://www.w3.org/2000/svg" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 11l7-7 7 7M5 19l7-7 7 7" />
+                  </svg>
+                <% end %>
+              <% end %>
+
+              <%= link_to membership, method: :delete, data: { confirm: 'Valóban törlöd a tagságát a felhasználónak?' }, class: "button is-small is-danger" do %>
+                <svg xmlns="http://www.w3.org/2000/svg" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                </svg>
+              <% end %>
+            </td>
           </tr>
         <% end %>
       </tbody>

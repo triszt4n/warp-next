@@ -2,7 +2,7 @@ class CirclesController < ApplicationController
   before_action :set_circle, only: %i[details show edit update destroy]
   before_action :site_admin_required, only: %i[edit update destroy]
   before_action :admin_required, only: %i[details]
-  before_action :member_required, only: %i[show]
+  before_action :admin_or_member_required, only: %i[show]
 
   # GET /circles
   def index
@@ -11,15 +11,12 @@ class CirclesController < ApplicationController
 
   # GET /circles/1
   def show
-    @albums = Album.all.order(created_at: :desc)
-    @title = "#{@circle.name} kör albumai"
-    render 'albums#index'
+    @albums = Album.where(circle: @circle).order(created_at: :desc)
+    render 'albums/index'
   end
 
   # GET /circles/1/details
-  def details
-    render 'albums#index'
-  end
+  def details; end
 
   # GET /circles/new
   def new
@@ -56,6 +53,7 @@ class CirclesController < ApplicationController
 
   # DELETE /circles/1
   def destroy
+    @circle.memberships.destroy_all
     @circle.destroy
     redirect_to circles_url, notice: 'Kör sikeresen törölve.'
   end
@@ -74,10 +72,14 @@ class CirclesController < ApplicationController
 
   # Allow for admin of circle
   def admin_required
-    redirect_to circles_path, notice: 'Nincs jogosultságod az funkcióhoz!' unless logged_in_as_admin_of?(@circle)
+    unless logged_in_as_site_admin? || logged_in_as_admin_of?(@circle)
+      redirect_to circles_path, notice: 'Nincs jogosultságod az funkcióhoz!'
+    end
   end
 
-  def member_required
-    redirect_to circles_path, notice: 'Nincs jogosultságod az funkcióhoz!' unless is_in_circle?(@circle)
+  def admin_or_member_required
+    unless logged_in_as_site_admin? || logged_in_as_admin_of?(@circle) || is_accepted_in_circle?(@circle)
+      redirect_to circles_path, notice: 'Nincs jogosultságod az funkcióhoz!'
+    end
   end
 end

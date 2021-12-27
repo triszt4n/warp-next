@@ -22,7 +22,13 @@ Rails.application.routes.draw do
       get :details
     end
   end
-  resources :memberships
+  resources :memberships do
+    member do
+      post :accept
+      post :demote
+      post :promote
+    end
+  end
 
   get '/login', to: 'sessions#new', as: :login
   get '/logout', to: 'sessions#destroy', as: :logout

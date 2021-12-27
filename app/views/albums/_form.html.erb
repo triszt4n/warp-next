@@ -24,6 +24,13 @@
 
   <% if page_type == :new %>
     <div class="field">
+      <%= form.label "Album köre", class: "label" %>
+      <div class="select">
+        <%= form.select :circle_id, circles.collect {|c| [c.name, c.id]}, {}, class: "" %>
+      </div>
+    </div>
+
+    <div class="field">
       <div class="label">Válaszd ki a hozzáadandó képeket!</div>
       <div class="file is-fullwidth has-name">
         <label class="file-label">

@@ -10,23 +10,23 @@
 
 <div class="columns is-mobile is-multiline album-columns">
   <% @circles.each do |circle| %>
-    <div class="column mt-3 is-half-mobile is-one-third-tablet is-one-quarter-desktop is-one-fifth-widescreen">
-      <div class="card album-card">
+    <div class="column mt-3 is-6-mobile is-4-tablet is-3-desktop is-2-widescreen">
+      <div class="card">
         <div class="card-image">
-          <figure class="image is-4by3">
+          <figure class="image p-2">
             <%= link_to circle do %>
-              <%= image_tag url_for(circle.thumbnail), class: "album-card-thumbnail" %>
+              <%= image_tag url_for(circle.logo) %>
             <% end %>
           </figure>
         </div>
 
-        <%# Button for joining %>
-        <% if not is_in_circle?(circle) %>
-          <%= form_with(model: circle) do |form| %>
-            <%= form.hidden_field :circle_id, circle.id %>
-            <%= form.hidden_field :user_id, current_user.id %>
-            <%= form.submit 'Csatlakozás', class: "button is-info", 
-              data: { confirm: 'Valóban szeretne belépni ebbe a körbe?' } %>
+        <%# Button for admins %>
+        <% if logged_in_as_site_admin? || logged_in_as_admin_of?(circle) %>
+          <%= link_to details_circle_path(circle), class: "button is-info album-image-delete" do %>
+            <svg xmlns="http://www.w3.org/2000/svg" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
           <% end %>
         <% end %>
 
@@ -34,6 +34,24 @@
           <%= link_to circle, class: "has-text-weight-semibold" do %>
             <span class="is-size-4"><%= circle.name %></span>
           <% end %>
+        </div>
+
+        <div class="card-footer">
+          <%# Button for joining %>
+          <div class="card-footer-item">
+            <% if is_accepted_in_circle?(circle) %>
+              Már tag vagy
+            <% elsif is_in_circle?(circle) %>
+              Kérelem leadva
+            <% else %>
+              <%= form_with(model: Membership.new, local: true) do |f| %>
+                <%= f.hidden_field :circle_id, value: circle.id %>
+                <%= f.hidden_field :user_id, value: current_user.id %>
+                <%= f.submit 'Csatlakozás', class: "button is-ghost", 
+                  data: { confirm: 'Valóban szeretne belépni ebbe a körbe?' } %>
+              <% end %>
+            <% end %>
+          </div>
         </div>
       </div>
     </div>

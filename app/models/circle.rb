@@ -6,11 +6,11 @@ class Circle < ApplicationRecord
   has_many :users, through: :memberships
   has_many :albums
 
-  def thumbnail
+  def mini
     if logo.nil?
-      ActionController::Base.helpers.image_url('album-blank.jpg')
+      ActionController::Base.helpers.image_url('logo-blank-mini.png')
     else
-      logo.variant gravity: 'Center', resize: '300x200^', crop: '300x200+0+0'
+      logo.variant gravity: 'Center', resize_to_limit: [36, 36]
     end
   end
 end

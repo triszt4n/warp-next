@@ -2,7 +2,11 @@
   <%= javascript_pack_tag 'album-index', 'data-turbolinks-track': 'reload' %>
 <% end %>
 
-<h1 class="is-size-3 mb-3"><%= @title %></h1>
+<% if @circle.nil? %>
+  <h1 class="is-size-3 mb-3"><%= @title %></h1>
+<% else %>
+  <h1 class="is-size-3 mb-3"><%= link_to @circle.name, details_circle_path(@circle) %> kör albumai</h1>
+<% end %>
 
 <div class="columns is-desktop p-3">
   <div class="mb-2 is-flex-grow-1">
@@ -27,6 +31,7 @@
       id="albumColumn" 
       data-title="<%= album.title %>"
       data-desc="<%= album.desc %>"
+      data-circle="<%= album.circle&.name %>"
     >
       <div class="card album-card">
         <div class="card-image">
@@ -46,6 +51,11 @@
             </svg>
           <% end %>
         <% end %>
+
+        <%# Image of circle %>
+        <div class="album-card-circle">
+          <%= image_tag url_for(album.circle&.mini), class: "album-card-circle-image" %>
+        </div>
 
         <div class="card-content p-3">
           <%= link_to album, class: "has-text-weight-semibold" do %>

@@ -13,12 +13,6 @@ class AlbumsController < ApplicationController
     @title = 'Minden album'
   end
 
-  # GET /albums/circle/1
-  def index_per_circle
-    @albums = Album.all.order(created_at: :desc)
-    @title = 'Minden album'
-  end
-
   # GET /albums/myalbums
   def myalbums
     @albums = Album.where(user: current_user).order(created_at: :desc)
@@ -34,6 +28,11 @@ class AlbumsController < ApplicationController
   # GET /albums/new
   def new
     @album = Album.new
+    @circles = current_user.circles
+
+    if @circles.empty?
+      redirect_to circles_path, notice: 'Nincs körtagsága, nem hozhat létre kört!'
+    end
   end
 
   # GET /albums/1/edit
@@ -123,6 +122,6 @@ class AlbumsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def album_params
-    params.require(:album).permit(:title, :desc, :shared, :public, :tag)
+    params.require(:album).permit(:title, :desc, :shared, :public, :tag, :circle_id)
   end
 end
