@@ -28,7 +28,7 @@ class AlbumsController < ApplicationController
   # GET /albums/new
   def new
     @album = Album.new
-    @circles = current_user.circles
+    @circles = current_user.memberships.where(accepted: true).map(&:circle)
 
     redirect_to circles_path, notice: 'Nincs körtagsága, nem hozhat létre kört!' if @circles.empty?
   end
