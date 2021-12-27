@@ -2,18 +2,24 @@
 
 The Kir-Dev organization has history with image hosting under the project name 'warp-drive'. This new project aims to fulfill the same purpose: easy Rails application for internal image hosting, mostly needed by the blog-next project.
 
-**NOTES:**
-* *Only* current and *only* Kir-Dev members are authorized to operate on the website. Please reach out to the *site admins* if you think you should be able to use the website.
-* Site admins have the power to *force_authorize* people, that already tried to sign into the page.
-* Be aware, albums are *shared* and *public* as a default. You can change these properties on the site.
-    * shared: which means every other authorized member can edit the albums
-    * public: which means the album is accessible to the internet (NOT FUNCTIONAL, every image is public by default and will stay as is, [but no worries](https://edgeguides.rubyonrails.org/active_storage_overview.html#serving-files))
+## Felhasználás:
+
+- Köröket kérésre készít a Warp üzemeltetője.
+- Minden újonnan belépő személynek jelentkeznie kell egy körbe a nyitó oldalon. A kör adminjai elfogadják a belépni kívánó személyt, ezután tud albumokat rendezni és használni.
+
+## Tech
+
+### Development notes
+
+* Be aware, albums are *public* as a default.
+  * public: which means the album is accessible to the internet (every image is public by default and will stay as is, [but no worries](https://edgeguides.rubyonrails.org/active_storage_overview.html#serving-files))
 * After long research it is not clear to me, if it would be possible to create shorter urls for the images with custom endpoint on our album controller, but it is free for all to prove me wrong with a solution. /triszt4n/
   * So that's why the "copy" button is designed, only so that after uploading you could also get instantly that long url for yourself to use it in a blog post or something like that.
 
-Techs:
-* Ruby on Rails
-* Primer CSS (by GitHub)
+### Tech stack
+
+* Ruby on Rails (ActiveStorage as the image storage)
+* Bulma
 * PhotoSwipe
 * PostgreSQL
 * Docker
@@ -53,7 +59,7 @@ After creating the database container you have to set up the database from the c
 
 1. Copy `.env.example` as `.env`:
     ```bash
-    mv .env.example .env
+    cp .env.example .env
     ```
 2. Navigate to Developer console on [the AuthSCH admin page](https://auth.sch.bme.hu).
 3. Create a new OAuth client, set the callback url to `http://localhost:3000/auth/oauth/callback`
