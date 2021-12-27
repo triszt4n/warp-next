@@ -74,14 +74,10 @@ class CirclesController < ApplicationController
 
   # Allow for admin of circle
   def admin_required
-    unless logged_in_as_admin_of?(@circle)
-      redirect_to circles_path, notice: 'Nincs jogosultságod az funkcióhoz!'
-    end
+    redirect_to circles_path, notice: 'Nincs jogosultságod az funkcióhoz!' unless logged_in_as_admin_of?(@circle)
   end
 
   def member_required
-    unless is_in_circle?(@circle)
-      redirect_to circles_path, notice: 'Nincs jogosultságod az funkcióhoz!'
-    end
+    redirect_to circles_path, notice: 'Nincs jogosultságod az funkcióhoz!' unless is_in_circle?(@circle)
   end
 end

@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
   helper_method :logged_in?
 
   def has_circle?
-    not current_user&.circles.empty?
+    !current_user&.circles.empty?
   end
   helper_method :has_circle?
 
