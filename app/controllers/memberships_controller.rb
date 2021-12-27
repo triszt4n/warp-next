@@ -23,7 +23,7 @@ class MembershipsController < ApplicationController
   # POST /memberships/1/accept
   def accept
     @membership.accepted = true
-    
+
     if @membership.save
       redirect_to details_circle_path(@membership.circle), notice: 'Tagság sikeresen elfogadva.'
     else
@@ -34,7 +34,7 @@ class MembershipsController < ApplicationController
   # POST /memberships/1/promote
   def promote
     @membership.admin = true
-    
+
     if @membership.save
       redirect_to details_circle_path(@membership.circle), notice: 'Tag sikeresen köradmin lett.'
     else
@@ -45,7 +45,7 @@ class MembershipsController < ApplicationController
   # POST /memberships/1/demote
   def demote
     @membership.admin = false
-    
+
     if @membership.save
       redirect_to details_circle_path(@membership.circle), notice: 'Tag köradminsága sikeresen megszüntetve.'
     else

@@ -30,9 +30,7 @@ class AlbumsController < ApplicationController
     @album = Album.new
     @circles = current_user.circles
 
-    if @circles.empty?
-      redirect_to circles_path, notice: 'Nincs körtagsága, nem hozhat létre kört!'
-    end
+    redirect_to circles_path, notice: 'Nincs körtagsága, nem hozhat létre kört!' if @circles.empty?
   end
 
   # GET /albums/1/edit

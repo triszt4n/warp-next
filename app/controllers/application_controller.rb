@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
   helper_method :has_circle?
 
   def is_in_circle?(circle)
-    not current_user&.circles.where(id: circle.id).empty?
+    !current_user&.circles.where(id: circle.id).empty?
   end
   helper_method :is_in_circle?
 
