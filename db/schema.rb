@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_27_142539) do
+ActiveRecord::Schema.define(version: 2021_12_27_142758) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -80,9 +80,8 @@ ActiveRecord::Schema.define(version: 2021_12_27_142539) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.boolean "authorized", default: false, null: false
-    t.boolean "force_authorized", default: false, null: false
     t.bigint "circle_id"
-    t.boolean "admin", default: false, null: false
+    t.boolean "site_admin", default: false, null: false
     t.index ["circle_id"], name: "index_users_on_circle_id"
   end
 
