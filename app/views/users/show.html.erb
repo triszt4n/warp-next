@@ -33,8 +33,8 @@
     </tr>
     <% if logged_in_as_site_admin? %>
       <tr>
-        <td class="has-text-right">Admin jog:</td>
-        <td><%= @user.admin? ? "Igen" : "Nem" %></td>
+        <td class="has-text-right">Site admin jog:</td>
+        <td><%= @user.site_admin? ? "Igen" : "Nem" %></td>
       </tr>
     <% end %>
     </tbody>
@@ -42,10 +42,10 @@
 </div>
 
 <div class="is-flex is-justify-content-center mt-5">
-  <% if logged_in_as_admin? %>
+  <% if logged_in_as_site_admin? %>
     <%= link_to "Vissza", adminpage_users_path, class: "button mx-2" %>
+    <%= link_to "Felülírás", edit_user_path(@user), class: "button is-warning mx-2" %>
   <% else %>
     <%= link_to "Vissza", root_path, class: "button mx-2" %>
   <% end %>
-  <%= link_to "Felülírás", edit_user_path(@user), class: "button is-warning mx-2" %>
 </div>

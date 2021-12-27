@@ -14,7 +14,10 @@
 
   <div id="navbarBasicExample" class="navbar-menu">
     <div class="navbar-start">
-      <%= link_to 'Minden album', albums_path, class: 'navbar-item' %>
+      <%= link_to 'Körök', circles_path, class: 'navbar-item' %>
+      <% if logged_in_as_site_admin? %>
+        <%= link_to 'Minden album', albums_path, class: 'navbar-item' %>
+      <% end %>
       <%= link_to 'Albumaim', myalbums_albums_path, class: 'navbar-item' %>
     </div>
 
@@ -26,8 +29,8 @@
 
         <div class="navbar-dropdown is-right">
           <%= link_to "Felhasználói adatok", user_path(current_user), class: 'navbar-item' %>
-          <% if logged_in_as_admin? %>
-            <%= link_to "Adminisztrátori oldal", adminpage_users_path, class: 'navbar-item' %>
+          <% if logged_in_as_site_admin? %>
+            <%= link_to "Site adminisztrátori oldal", adminpage_users_path, class: 'navbar-item' %>
           <% end %>
           <hr class="navbar-divider">
           <%= link_to "Kijelentkezés", logout_path, class: 'navbar-item has-text-danger' %>

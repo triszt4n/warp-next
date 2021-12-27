@@ -38,7 +38,7 @@
         </div>
 
         <%# Button for admins or the owner %>
-        <% if logged_in_as_admin? || album.user == current_user %>
+        <% if logged_in_as_site_admin? || logged_in_as_admin_of?(album.circle) || album.user == current_user %>
           <%= link_to album, class: "button is-danger album-image-delete",
             method: :delete, data: { confirm: 'Valóban el szeretnéd távolítani a teljes albumot?' } do %>
             <svg xmlns="http://www.w3.org/2000/svg" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">

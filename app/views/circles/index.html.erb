@@ -1,22 +1,12 @@
 <h1 class="is-size-3 mb-3">Körök</h1>
 
-<div class="columns is-desktop p-3">
-  <div class="mb-2 is-flex-grow-1">
-    <div class="control has-icons-left">
-      <input class="input" type="text" placeholder="Search" id="searchBar">
-      <span class="icon is-left">
-        <svg xmlns="http://www.w3.org/2000/svg" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-        </svg>
-      </span>
-    </div>
-  </div>
-  <% if logged_in_as_site_admin? %>
+<% if logged_in_as_site_admin? %>
+  <div class="p-3">
     <div class="has-text-right mb-6 ml-2">
       <%= link_to 'Új kör létrehozása', new_circle_path, class: "button" %>
     </div>
-  <% end %>
-</div>
+  </div>
+<% end %>
 
 <div class="columns is-mobile is-multiline album-columns">
   <% @circles.each do |circle| %>
@@ -32,17 +22,17 @@
 
         <%# Button for joining %>
         <% if not is_in_circle?(circle) %>
-          <%= link_to join_circle_path, class: "button is-info",
-            method: :post, data: { confirm: 'Valóban szeretne belépni ebbe a körbe?' } do %>
-            <svg xmlns="http://www.w3.org/2000/svg" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-            </svg>
+          <%= form_with(model: circle) do |form| %>
+            <%= form.hidden_field :circle_id, circle.id %>
+            <%= form.hidden_field :user_id, current_user.id %>
+            <%= form.submit 'Csatlakozás', class: "button is-info", 
+              data: { confirm: 'Valóban szeretne belépni ebbe a körbe?' } %>
           <% end %>
         <% end %>
 
         <div class="card-content p-3">
-          <%= link_to album, class: "has-text-weight-semibold" do %>
-            <span class="is-size-4"><%= album.title %></span>
+          <%= link_to circle, class: "has-text-weight-semibold" do %>
+            <span class="is-size-4"><%= circle.name %></span>
           <% end %>
         </div>
       </div>

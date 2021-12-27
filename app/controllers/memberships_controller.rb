@@ -31,11 +31,10 @@ class MembershipsController < ApplicationController
     params.require(:membership).permit(:circle_id, :user_id)
   end
 
-  # Allow for shared
+  # Allow for admin of circle
   def admin_required
     unless logged_in_as_admin_of?(@membership.circle)
       redirect_to @album, notice: 'Nincs jogosultságod az funkcióhoz!'
     end
   end
 end
-  

@@ -9,6 +9,11 @@ class ApplicationController < ActionController::Base
   end
   helper_method :has_circle?
 
+  def is_in_circle?(circle)
+    current_user&.circles.any? { |c| c.id == circle.id }
+  end
+  helper_method :is_in_circle?
+
   def logged_in_as_site_admin?
     current_user&.site_admin?
   end

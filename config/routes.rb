@@ -17,7 +17,11 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :circles
+  resources :circles do
+    member do
+      get :details
+    end
+  end
   resources :memberships
 
   get '/login', to: 'sessions#new', as: :login

@@ -1,6 +1,8 @@
 class CirclesController < ApplicationController
-  before_action :set_circle, only: %i[edit update destroy]
-  before_action :site_admin_required
+  before_action :set_circle, only: %i[details show edit update destroy]
+  before_action :site_admin_required, only: %i[edit update destroy]
+  before_action :admin_required, only: %i[details]
+  before_action :member_required, only: %i[show]
 
   # GET /circles
   def index
@@ -9,7 +11,14 @@ class CirclesController < ApplicationController
 
   # GET /circles/1
   def show
-    @circle = Circle.find(params[:id])
+    @albums = Album.all.order(created_at: :desc)
+    @title = "#{@circle.name} kör albumai"
+    render 'albums#index'
+  end
+
+  # GET /circles/1/details
+  def details
+    render 'albums#index'
   end
 
   # GET /circles/new
@@ -61,5 +70,18 @@ class CirclesController < ApplicationController
   # Only allow a list of trusted parameters through.
   def circle_params
     params.require(:circle).permit(:name)
+  end
+
+  # Allow for admin of circle
+  def admin_required
+    unless logged_in_as_admin_of?(@circle)
+      redirect_to circles_path, notice: 'Nincs jogosultságod az funkcióhoz!'
+    end
+  end
+
+  def member_required
+    unless is_in_circle?(@circle)
+      redirect_to circles_path, notice: 'Nincs jogosultságod az funkcióhoz!'
+    end
   end
 end
