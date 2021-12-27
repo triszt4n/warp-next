@@ -3,7 +3,7 @@
 <div style="overflow-x: auto;">
   <table class="table is-hoverable mx-auto">
     <tbody>
-    <% if logged_in_as_admin? %>
+    <% if logged_in_as_site_admin? %>
       <tr>
         <td class="has-text-right">Uid:</td>
         <td><%= @user.uid %></td>
@@ -21,15 +21,17 @@
       <td class="has-text-right">Belépés ideje:</td>
       <td><%= l @user.created_at %></td>
     </tr>
-    <% if logged_in_as_admin? %>
-      <tr>
-        <td class="has-text-right">Engedélyezett belépésre:</td>
-        <td><%= @user.authorized? ? "Igen" : "Nem" %></td>
-      </tr>
-      <tr>
-        <td class="has-text-right">Engedélyezett belépésre (force_authorized):</td>
-        <td><%= @user.force_authorized? ? "Igen" : "Nem" %></td>
-      </tr>
+    <tr>
+      <td class="has-text-right">Körtagságok:</td>
+      <td>
+        <% @user.circles.each do |circle| %>
+          <div>
+            <%= link_to circle.name, circle %>
+          </div>
+        <% end %>
+      </td>
+    </tr>
+    <% if logged_in_as_site_admin? %>
       <tr>
         <td class="has-text-right">Admin jog:</td>
         <td><%= @user.admin? ? "Igen" : "Nem" %></td>

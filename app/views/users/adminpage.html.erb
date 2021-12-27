@@ -1,6 +1,6 @@
-<h1 class="is-size-3">Jogosulatlan bejelentkezések</h1>
+<h1 class="is-size-3">Bejelentkezések</h1>
 
-<% if @unauthorized_users.empty? then %>
+<% if @users.empty? then %>
   <p class="my-6">Nem található.</p>
 <% else %>
   <div class="users-table mt-5">
@@ -10,27 +10,31 @@
           <th>Név</th>
           <th>E-mail</th>
           <th>Belépés ideje</th>
-          <% if logged_in_as_admin? then %>
-            <th></th>
-          <% end %>
+          <th>Tagságok</th>
+          <th></th>
         </tr>
       </thead>
 
       <tbody>
-        <% @unauthorized_users.each do |user| %>
+        <% @users.each do |user| %>
           <tr>
             <td><%= link_to user.name, user %></td>
             <td><%= user.email %></td>
             <td><%= l user.created_at %></td>
-            <% if logged_in_as_admin? then %>
-              <td class="has-text-right">
-                <%= link_to user, method: :delete, data: { confirm: 'Valóban törlöd a felhasználót?' }, class: "button is-small is-danger" do %>
-                  <svg xmlns="http://www.w3.org/2000/svg" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                  </svg>
-                <% end %>
-              </td>
-            <% end %>
+            <td>
+              <% user.circles.each do |circle| %>
+                <div>
+                  <%= link_to circle.name, circle %>
+                </div>
+              <% end %>
+            </td>
+            <td class="has-text-right">
+              <%= link_to user, method: :delete, data: { confirm: 'Valóban törlöd a felhasználót?' }, class: "button is-small is-danger" do %>
+                <svg xmlns="http://www.w3.org/2000/svg" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                </svg>
+              <% end %>
+            </td>
           </tr>
         <% end %>
       </tbody>

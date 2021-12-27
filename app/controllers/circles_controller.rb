@@ -51,11 +51,6 @@ class CirclesController < ApplicationController
     redirect_to circles_url, notice: 'Kör sikeresen törölve.'
   end
 
-  # POST /circles/1/join
-  def join
-    # TODO
-  end
-
   private
 
   # Use callbacks to share common setup or constraints between actions.
