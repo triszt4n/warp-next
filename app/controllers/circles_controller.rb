@@ -53,7 +53,6 @@ class CirclesController < ApplicationController
 
   # DELETE /circles/1
   def destroy
-    @circle.memberships.destroy_all
     @circle.destroy
     redirect_to circles_url, notice: 'Kör sikeresen törölve.'
   end
@@ -78,7 +77,7 @@ class CirclesController < ApplicationController
   end
 
   def admin_or_member_required
-    unless logged_in_as_site_admin? || logged_in_as_admin_of?(@circle) || is_accepted_in_circle?(@circle)
+    unless logged_in_as_site_admin? || logged_in_as_admin_of?(@circle) || accepted_in_circle?(@circle)
       redirect_to circles_path, notice: 'Nincs jogosultságod az funkcióhoz!'
     end
   end

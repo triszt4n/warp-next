@@ -39,9 +39,9 @@
         <div class="card-footer">
           <%# Button for joining %>
           <div class="card-footer-item">
-            <% if is_accepted_in_circle?(circle) %>
+            <% if accepted_in_circle?(circle) %>
               Már tag vagy
-            <% elsif is_in_circle?(circle) %>
+            <% elsif in_circle?(circle) %>
               Kérelem leadva
             <% else %>
               <%= form_with(model: Membership.new, local: true) do |f| %>

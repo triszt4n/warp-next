@@ -2,9 +2,9 @@ class Circle < ApplicationRecord
   has_one_attached :logo
   validates :name, presence: true, length: { minimum: 3, maximum: 128 }
 
-  has_many :memberships
+  has_many :memberships, dependent: :destroy
   has_many :users, through: :memberships
-  has_many :albums
+  has_many :albums, dependent: :nullify
 
   def mini
     if logo.nil?
