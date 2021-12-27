@@ -102,7 +102,7 @@ class AlbumsController < ApplicationController
 
   # Allow only owner or admin
   def admin_or_owner_required
-    unless current_user == @album.user || logged_in_as_admin?
+    unless current_user == @album.user || logged_in_as_site_admin? || logged_in_as_admin_of?(@album.circle)
       redirect_to @album,
                   notice: 'Nincs jogosultságod az funkcióhoz!'
     end
@@ -110,7 +110,7 @@ class AlbumsController < ApplicationController
 
   # Allow for shared
   def admin_or_owner_or_shared_required
-    unless current_user == @album.user || logged_in_as_admin? || @album.shared?
+    unless current_user == @album.user || logged_in_as_site_admin? || logged_in_as_admin_of?(@album.circle) || @album.shared?
       redirect_to @album, notice: 'Nincs jogosultságod az funkcióhoz!'
     end
   end
