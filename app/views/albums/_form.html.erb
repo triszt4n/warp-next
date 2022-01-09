@@ -26,7 +26,7 @@
     <div class="field">
       <%= form.label "Album köre", class: "label" %>
       <div class="select">
-        <%= form.select :circle_id, circles.collect {|c| [c.name, c.id]}, {}, class: "" %>
+        <%= form.select :circle_id, circles.collect {|c| [c.name, c.id]} %>
       </div>
     </div>
 
