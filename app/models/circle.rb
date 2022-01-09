@@ -1,6 +1,7 @@
 class Circle < ApplicationRecord
   has_one_attached :logo
   validates :name, presence: true, length: { minimum: 3, maximum: 128 }
+  validates :logo, presence: true
 
   has_many :memberships, dependent: :destroy
   has_many :users, through: :memberships
