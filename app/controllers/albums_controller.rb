@@ -28,6 +28,9 @@ class AlbumsController < ApplicationController
   # GET /albums/new
   def new
     @album = Album.new
+    @circles = current_user.memberships.where(accepted: true).map(&:circle)
+
+    redirect_to circles_path, notice: 'Nincs körtagsága, nem hozhat létre kört!' if @circles.empty?
   end
 
   # GET /albums/1/edit
@@ -102,7 +105,7 @@ class AlbumsController < ApplicationController
 
   # Allow only owner or admin
   def admin_or_owner_required
-    unless current_user == @album.user || logged_in_as_admin?
+    unless current_user == @album.user || logged_in_as_site_admin? || logged_in_as_admin_of?(@album.circle)
       redirect_to @album,
                   notice: 'Nincs jogosultságod az funkcióhoz!'
     end
@@ -110,13 +113,16 @@ class AlbumsController < ApplicationController
 
   # Allow for shared
   def admin_or_owner_or_shared_required
-    unless current_user == @album.user || logged_in_as_admin? || @album.shared?
+    unless current_user == @album.user ||
+           logged_in_as_site_admin? ||
+           logged_in_as_admin_of?(@album.circle) ||
+           @album.shared?
       redirect_to @album, notice: 'Nincs jogosultságod az funkcióhoz!'
     end
   end
 
   # Only allow a list of trusted parameters through.
   def album_params
-    params.require(:album).permit(:title, :desc, :shared, :public, :tag)
+    params.require(:album).permit(:title, :desc, :shared, :public, :tag, :circle_id)
   end
 end

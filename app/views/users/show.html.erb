@@ -3,7 +3,7 @@
 <div style="overflow-x: auto;">
   <table class="table is-hoverable mx-auto">
     <tbody>
-    <% if logged_in_as_admin? %>
+    <% if logged_in_as_site_admin? %>
       <tr>
         <td class="has-text-right">Uid:</td>
         <td><%= @user.uid %></td>
@@ -21,18 +21,20 @@
       <td class="has-text-right">Belépés ideje:</td>
       <td><%= l @user.created_at %></td>
     </tr>
-    <% if logged_in_as_admin? %>
+    <tr>
+      <td class="has-text-right">Körtagságok:</td>
+      <td>
+        <% @user.circles.each do |circle| %>
+          <div>
+            <%= link_to circle.name, circle %>
+          </div>
+        <% end %>
+      </td>
+    </tr>
+    <% if logged_in_as_site_admin? %>
       <tr>
-        <td class="has-text-right">Engedélyezett belépésre:</td>
-        <td><%= @user.authorized? ? "Igen" : "Nem" %></td>
-      </tr>
-      <tr>
-        <td class="has-text-right">Engedélyezett belépésre (force_authorized):</td>
-        <td><%= @user.force_authorized? ? "Igen" : "Nem" %></td>
-      </tr>
-      <tr>
-        <td class="has-text-right">Admin jog:</td>
-        <td><%= @user.admin? ? "Igen" : "Nem" %></td>
+        <td class="has-text-right">Site admin jog:</td>
+        <td><%= @user.site_admin? ? "Igen" : "Nem" %></td>
       </tr>
     <% end %>
     </tbody>
@@ -40,10 +42,10 @@
 </div>
 
 <div class="is-flex is-justify-content-center mt-5">
-  <% if logged_in_as_admin? %>
+  <% if logged_in_as_site_admin? %>
     <%= link_to "Vissza", adminpage_users_path, class: "button mx-2" %>
+    <%= link_to "Felülírás", edit_user_path(@user), class: "button is-warning mx-2" %>
   <% else %>
     <%= link_to "Vissza", root_path, class: "button mx-2" %>
   <% end %>
-  <%= link_to "Felülírás", edit_user_path(@user), class: "button is-warning mx-2" %>
 </div>

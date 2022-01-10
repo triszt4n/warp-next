@@ -42,6 +42,21 @@
   box-shadow: 4px 4px 5px 0px rgba(50, 50, 50, 0.75);
 }
 
+.album-card-circle {
+  position: absolute;
+  top: -0.25rem;
+  left: -0.25rem;
+  background-color: white;
+  box-shadow: 4px 4px 5px 0px rgba(50, 50, 50, 0.75);
+  border-radius: 0.3rem;
+  padding: 0.3rem;
+
+  .album-card-circle-image {
+    object-fit: cover;
+    display: block;
+  }
+}
+
 .users-table {
   max-height: 32rem;
   overflow-y: scroll;

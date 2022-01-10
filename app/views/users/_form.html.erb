@@ -2,16 +2,9 @@
   <%= render 'layouts/errors', errors: user.errors %>
 
   <div class="field">
-    <%= form.label :force_authorized, class: "label" do %>
-      <%= form.check_box :force_authorized %>
-      Belépési engedély kényszerítése (force_authorized)
-    <% end %>
-  </div>
-
-  <div class="field">
-    <%= form.label :admin, class: "label" do %>
-      <%= form.check_box :admin %>
-      Adminisztrátori jog
+    <%= form.label :site_admin, class: "label" do %>
+      <%= form.check_box :site_admin %>
+      Site adminisztrátori jog
     <% end %>
   </div>
 

@@ -3,7 +3,7 @@
     <div class="is-size-2 mr-2">
       <%= @album.title %>
     </div>
-    <% unless @album.tag.nil? %>
+    <% unless @album.tag.empty? %>
       <div class="is-flex-grow-1 is-flex is-justify-content-flex-end">
         <span class="tag is-info is-medium">
           #<%= @album.tag %>
@@ -11,10 +11,13 @@
       </div>
     <% end %>
   </div>
-  <p class="is-size-5 mt-3">
+  <p class="is-size-5 mt-4">
+    <%= link_to @album.circle.name, @album.circle %> kör albuma
+  </p>
+  <p class="is-size-5 mt-1">
     <%= @album.desc %>
   </p>
-  <p class="is-size-6 mt-3">
+  <p class="is-size-6 mt-5">
     Használd a 
     <svg xmlns="http://www.w3.org/2000/svg" height="20" fill="none" viewBox="0 2 24 20" stroke="currentColor">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
@@ -23,7 +26,7 @@
   </p>
 </div>
 
-<% if logged_in_as_admin? || @album.user == current_user || @album.shared? then %>
+<% if logged_in_as_site_admin? || logged_in_as_admin_of?(@album.circle) || @album.user == current_user || @album.shared? %>
   <div class="has-text-right">
     <div class="dropdown is-hoverable is-right">
       <div class="dropdown-trigger">
@@ -41,7 +44,7 @@
           <a type="button" class="dropdown-item" id="modalButton">
             Kép(ek) hozzáadása
           </a>
-          <% if logged_in_as_admin? || @album.user == current_user then %>
+          <% if logged_in_as_site_admin? || logged_in_as_admin_of?(@album.circle) || @album.user == current_user %>
             <%= link_to "Tulajdonságok módosítása", edit_album_path(@album), class: "dropdown-item" %>
             <hr class="dropdown-divider">
             <%= link_to("Album törlése", @album, class: "has-text-danger dropdown-item",
@@ -63,7 +66,7 @@
           </figure>
         </div>
 
-        <% if logged_in_as_admin? || @album.user == current_user || @album.shared? then %>
+        <% if logged_in_as_site_admin? || logged_in_as_admin_of?(@album.circle) || @album.user == current_user || @album.shared? %>
           <%= link_to delete_image_album_url(image_id: image.id), class: "button is-danger p-3 album-image-delete",
             method: :delete, data: { confirm: 'Valóban el szeretnéd távolítani a képet?' } do %>
             <svg xmlns="http://www.w3.org/2000/svg" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -88,7 +91,7 @@
 <% end %>
 
 <% content_for :javascripts do %>
-  <% if logged_in_as_admin? || @album.user == current_user then %>
+  <% if logged_in_as_site_admin? || logged_in_as_admin_of?(@album.circle) || @album.user == current_user %>
     <%= render 'modal', album: @album %>
   <% end %>
 

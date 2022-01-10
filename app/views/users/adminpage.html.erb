@@ -1,6 +1,6 @@
-<h1 class="is-size-3">Jogosulatlan bejelentkezések</h1>
+<h1 class="is-size-3">Bejelentkezések</h1>
 
-<% if @unauthorized_users.empty? then %>
+<% if @users.empty? %>
   <p class="my-6">Nem található.</p>
 <% else %>
   <div class="users-table mt-5">
@@ -9,28 +9,32 @@
         <tr>
           <th>Név</th>
           <th>E-mail</th>
+          <th>Tagságok</th>
           <th>Belépés ideje</th>
-          <% if logged_in_as_admin? then %>
-            <th></th>
-          <% end %>
+          <th></th>
         </tr>
       </thead>
 
       <tbody>
-        <% @unauthorized_users.each do |user| %>
+        <% @users.each do |user| %>
           <tr>
-            <td><%= link_to user.name, user %></td>
+            <td><%= link_to user.name, user %><%= user.site_admin? ? " [ADMIN]" : "" %></td>
             <td><%= user.email %></td>
+            <td>
+              <% user.circles.each do |circle| %>
+                <div>
+                  <%= link_to circle.name, details_circle_path(circle) %>
+                </div>
+              <% end %>
+            </td>
             <td><%= l user.created_at %></td>
-            <% if logged_in_as_admin? then %>
-              <td class="has-text-right">
-                <%= link_to user, method: :delete, data: { confirm: 'Valóban törlöd a felhasználót?' }, class: "button is-small is-danger" do %>
-                  <svg xmlns="http://www.w3.org/2000/svg" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                  </svg>
-                <% end %>
-              </td>
-            <% end %>
+            <td class="has-text-right">
+              <%= link_to user, method: :delete, data: { confirm: 'Valóban törlöd a felhasználót?' }, class: "button is-small is-danger" do %>
+                <svg xmlns="http://www.w3.org/2000/svg" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                </svg>
+              <% end %>
+            </td>
           </tr>
         <% end %>
       </tbody>
@@ -38,9 +42,9 @@
   </div>
 <% end %>
 
-<h1 class="is-size-3 mt-6">Autorizált felhasználók</h1>
+<h1 class="is-size-3 mt-6">Körök</h1>
 
-<% if @authorized_users.empty? then %>
+<% if @circles.empty? %>
   <p class="my-6">Nem található.</p>
 <% else %>
   <div class="users-table mt-5">
@@ -48,29 +52,42 @@
       <thead>
         <tr>
           <th>Név</th>
-          <th>E-mail</th>
-          <th>Belépés ideje</th>
-          <% if logged_in_as_admin? then %>
-            <th></th>
-          <% end %>
+          <th>Adminok</th>
+          <th>Tagszám</th>
+          <th>Albumszám</th>
+          <th>Létrehozás ideje</th>
+          <th></th>
         </tr>
       </thead>
 
       <tbody>
-        <% @authorized_users.each do |user| %>
+        <% @circles.each do |circle| %>
           <tr>
-            <td><%= link_to user.name, user %> <%= user.admin? ? "[ADMIN]" : "" %></td>
-            <td><%= user.email %></td>
-            <td><%= l user.created_at %></td>
-            <% if logged_in_as_admin? then %>
-              <td class="has-text-right">
-                <%= link_to user, method: :delete, data: { confirm: 'Valóban törlöd a felhasználót?' }, class: "button is-small is-danger" do %>
-                  <svg xmlns="http://www.w3.org/2000/svg" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                  </svg>
-                <% end %>
-              </td>
-            <% end %>
+            <td class="is-flex is-flex-direction-row is-align-items-center">
+              <%= image_tag url_for(circle.mini), style: "height: 1.25rem" %>
+              <%= link_to circle.name, details_circle_path(circle), class: "ml-2" %>
+            </td>
+            <td>
+              <% circle.memberships.where(admin: true).each do |membership| %>
+                <div>
+                  <%= link_to membership.user.name, membership.user %>
+                </div>
+              <% end %>
+            </td>
+            <td>
+              <%= circle.memberships.length %>
+            </td>
+            <td>
+              <%= circle.albums.length %>
+            </td>
+            <td><%= l circle.created_at %></td>
+            <td class="has-text-right">
+              <%= link_to circle, method: :delete, data: { confirm: 'Valóban törlöd a kört és tagságait?' }, class: "button is-small is-danger" do %>
+                <svg xmlns="http://www.w3.org/2000/svg" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                </svg>
+              <% end %>
+            </td>
           </tr>
         <% end %>
       </tbody>
@@ -81,13 +98,10 @@
 <h1 class="is-size-3 mt-6">Statisztika</h1>
 
 <p class="my-2 mt-5">
-  Autorizált felhasználók száma: <%= @authorized_users.length %>
+  Belépett felhasználók száma: <%= @users.length %>
 </p>
 <p class="my-2 ml-5">
-  Ebből adminok száma: <%= @authorized_users.count { |u| u.admin? } %>
-</p>
-<p class="my-2">
-  Jogosulatlan bejelentkezések száma: <%= @unauthorized_users.length %>
+  Ebből site adminok száma: <%= @users.count { |u| u.site_admin? } %>
 </p>
 <p class="my-2">
   Albumok száma: <%= @album_count %>

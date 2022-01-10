@@ -5,15 +5,31 @@ Rails.application.routes.draw do
       post :add_image
       get :image
     end
+
     collection do
       get :myalbums
     end
   end
+
   resources :users do
     collection do
       get :adminpage
     end
   end
+
+  resources :circles do
+    member do
+      get :details
+    end
+  end
+  resources :memberships do
+    member do
+      post :accept
+      post :demote
+      post :promote
+    end
+  end
+
   get '/login', to: 'sessions#new', as: :login
   get '/logout', to: 'sessions#destroy', as: :logout
   get '/auth/oauth/callback', to: 'sessions#create'

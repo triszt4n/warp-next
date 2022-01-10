@@ -7,8 +7,10 @@ searchBar.addEventListener('keyup', () => {
     albumColumns.forEach((albumColumn) => {
         const title = albumColumn.dataset.title
         const desc = albumColumn.dataset.desc
+        const circle = albumColumn.dataset.circle
         if (title.toUpperCase().indexOf(filter) > -1 ||
-            desc.toUpperCase().indexOf(filter) > -1 
+            desc.toUpperCase().indexOf(filter) > -1 ||
+            circle.toUpperCase().indexOf(filter) > -1
         ) {
             albumColumn.style.display = ""
         } else {

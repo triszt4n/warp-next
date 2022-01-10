@@ -6,6 +6,8 @@ hu:
       active_storage/variant_record: Aktív tárhely / változatrekord  #g
       album: Album  #g
       user: Felhasználó  #g
+      membership: Tagság
+      circle: Kör
 
     attributes:
       active_storage/attachment:
@@ -41,12 +43,27 @@ hu:
         shared: Megosztva  #g
         tag: Címke  #g
         title: Cím  #g
+        circle: Kör
         user: :activerecord.models.user  #g
 
       user:
-        admin: Rendszergazda  #g
-        authorized: Engedélyezett  #g
+        site_admin: Site adminisztrátor  #g
         email: Email  #g
-        force_authorized: Force engedélyezett  #g
         name: Név  #g
         uid: Uid  #g
+        authorized: Felhatalmazott  #g
+        circles: Körök  #g
+        memberships: Tagságok  #g
+
+      circle:
+        albums: Albumok  #g
+        logo_attachment: :activerecord.models.logo_attachment  #g
+        logo_blob: :activerecord.models.logo_blob  #g
+        memberships: Tagságok  #g
+        name: Név  #g
+        users: Tagok  #g
+
+      membership:
+        admin: Köradmin  #g
+        circle: :activerecord.models.circle  #g
+        user: :activerecord.models.user  #g
