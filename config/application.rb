@@ -31,5 +31,9 @@ module Warp
     # the framework and any gems in your application.
 
     config.active_storage.routes_prefix = '/img'
+
+    # We need this to prevent publishing unauthorized routes to images
+    #config.active_storage.draw_routes = false
+
   end
 end

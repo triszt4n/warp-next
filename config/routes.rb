@@ -30,6 +30,13 @@ Rails.application.routes.draw do
     end
   end
 
+  #We need this so old links are still working after update
+  #But with this routing we can make short urls in the future
+  #
+  scope ActiveStorage.routes_prefix do
+    get '/blobs/redirect/:signed_id/*filename', to: 'secure_blobs#show'
+  end
+
   get '/login', to: 'sessions#new', as: :login
   get '/logout', to: 'sessions#destroy', as: :logout
   get '/auth/oauth/callback', to: 'sessions#create'
