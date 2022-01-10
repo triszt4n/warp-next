@@ -32,8 +32,12 @@ module Warp
 
     config.active_storage.routes_prefix = '/img'
 
-    # We need this to prevent publishing unauthorized routes to images
-    #config.active_storage.draw_routes = false
-
+    config.to_prepare do
+      # Load any monkey-patching extensions in to_prepare for
+      # Rails dev-mode class-reloading.
+      Dir.glob(File.join(File.dirname(__FILE__), "../app/extensions/**/*_extension.rb")) do |c|
+        Rails.configuration.cache_classes ? require(c) : load(c)
+      end
+    end
   end
 end
