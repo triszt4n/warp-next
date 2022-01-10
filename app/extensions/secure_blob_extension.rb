@@ -14,7 +14,6 @@ ActiveStorage::BaseController.class_eval do
 
     # if album is not public, and user is logged in check permissions
     head :forbidden unless user.site_admin? || logged_in_as_admin_of?(@album.circle) || @album.shared?
-
   end
 
   # Can't use helpers defined in application_controller because
