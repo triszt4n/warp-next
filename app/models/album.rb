@@ -14,7 +14,6 @@ class Album < ApplicationRecord
   end
 
   def self.find_blob_owner(blob_id)
-    Album.joins(:images_blobs).find_by(active_storage_blobs: {id: blob_id})
+    Album.joins(:images_blobs).find_by(active_storage_blobs: { id: blob_id })
   end
-
 end

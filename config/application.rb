@@ -31,7 +31,7 @@ module Warp
     # the framework and any gems in your application.
 
     config.active_storage.routes_prefix = '/img'
-    
+
     config.to_prepare do
       # Load any monkey-patching extensions in to_prepare for
       # Rails dev-mode class-reloading.
