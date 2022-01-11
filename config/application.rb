@@ -32,6 +32,8 @@ module Warp
 
     config.active_storage.routes_prefix = '/img'
 
+    # Load monkey patching extensions
+    # from article: https://bibwild.wordpress.com/2016/12/27/a-class_eval-monkey-patching-pattern-with-prepend/
     config.to_prepare do
       # Load any monkey-patching extensions in to_prepare for
       # Rails dev-mode class-reloading.
@@ -39,5 +41,6 @@ module Warp
         Rails.configuration.cache_classes ? require(c) : load(c)
       end
     end
+
   end
 end

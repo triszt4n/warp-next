@@ -7,6 +7,7 @@ active_storage_controllers = [ActiveStorage::Blobs::RedirectController,
 active_storage_controllers.each do |controller|
   controller.class_eval do
     before_action :authorize_request
+
     def authorize_request
       album = Album.find_blob_owner @blob.id
       # If resource is not from an album, or album is public, then no need to authorize.

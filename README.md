@@ -11,10 +11,7 @@ The Kir-Dev organization has history with image hosting under the project name '
 
 ### Development notes
 
-* Be aware, albums are *public* as a default.
-  * public: which means the album is accessible to the internet (every image is public by default and will stay as is, [but no worries](https://edgeguides.rubyonrails.org/active_storage_overview.html#serving-files))
-* After long research it is not clear to me, if it would be possible to create shorter urls for the images with custom endpoint on our album controller, but it is free for all to prove me wrong with a solution. /triszt4n/
-  * So that's why the "copy" button is designed, only so that after uploading you could also get instantly that long url for yourself to use it in a blog post or something like that.
+As of rails 6.1.4 you can make ActiveStorage blobs private, by making your own [authenticated controllers](https://edgeguides.rubyonrails.org/active_storage_overview.html#authenticated-controllers), but no way of wiring it in the framework  is provided. To tackle this there is a little extension code, that opens the original controllers and injects authorization code. **If rails version is bumped this could brake. In this case remove the extension loader from `config/application.rb`**
 
 ### Tech stack
 
