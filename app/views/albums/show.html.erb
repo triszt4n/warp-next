@@ -3,13 +3,21 @@
     <div class="is-size-2 mr-2">
       <%= @album.title %>
     </div>
-    <% unless @album.tag.empty? %>
-      <div class="is-flex-grow-1 is-flex is-justify-content-flex-end">
+    <div class="is-flex-grow-1 is-flex is-justify-content-flex-end">
+      <% unless @album.tag.empty? %>
         <span class="tag is-info is-medium">
           #<%= @album.tag %>
         </span>
-      </div>
-    <% end %>
+      <% end %>
+      <% unless @album.public? %>
+        <span 
+          class="tag is-warning is-medium ml-1" 
+          title="Az album képei nem elérhetőek a weboldalon kívülről"
+        >
+          Nem publikus<sup class="is-align-self-flex-start">?</sup>
+        </span>
+      <% end %>
+    </div>
   </div>
   <p class="is-size-5 mt-4">
     <%= link_to @album.circle.name, @album.circle %> kör albuma

@@ -57,6 +57,12 @@
   }
 }
 
+.album-card-nonpublic {
+  position: absolute;
+  top: -2rem;
+  right: 0.25rem;
+}
+
 .users-table {
   max-height: 32rem;
   overflow-y: scroll;

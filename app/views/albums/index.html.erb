@@ -57,7 +57,19 @@
           <%= image_tag url_for(album.circle&.mini), class: "album-card-circle-image" %>
         </div>
 
-        <div class="card-content p-3">
+        <div class="card-content p-3 is-relative">
+          <%# Private badge %>
+          <% unless album.public? %>
+            <div class="album-card-nonpublic">
+              <span 
+                class="tag is-warning" 
+                title="Az album képei nem elérhetőek a weboldalon kívülről"
+              >
+                Nem publikus<sup class="is-align-self-flex-start">?</sup>
+              </span>
+            </div>
+          <% end %>
+          
           <%= link_to album, class: "has-text-weight-semibold" do %>
             <span class="is-size-4"><%= album.title %></span>
           <% end %>
