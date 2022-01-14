@@ -12,4 +12,8 @@ class Album < ApplicationRecord
       images.first.variant gravity: 'Center', resize: '300x200^', crop: '300x200+0+0'
     end
   end
+
+  def self.find_blob_owner(blob_id)
+    Album.joins(:images_blobs).find_by(active_storage_blobs: { id: blob_id })
+  end
 end

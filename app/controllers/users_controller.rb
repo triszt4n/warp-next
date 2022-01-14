@@ -9,7 +9,7 @@ class UsersController < ApplicationController
     @circles = Circle.all
     @album_count = Album.count(:all)
     @image_count = Album.all.sum { |album| album.images.length }
-    @public_image_count = Album.all.sum { |album| album.images.length if album.public? }
+    @public_image_count = Album.where(public: true).sum { |album| album.images.length }
   end
 
   # GET /users/1
