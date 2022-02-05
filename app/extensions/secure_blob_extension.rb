@@ -27,3 +27,6 @@ active_storage_controllers.each do |controller|
     end
   end
 end
+
+class SecureBlobExtension
+end
