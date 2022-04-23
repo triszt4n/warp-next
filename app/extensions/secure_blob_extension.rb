@@ -23,7 +23,7 @@ active_storage_controllers.each do |controller|
     # Can't use helpers defined in application_controller because
     # ActiveStorage::BaseController is not a child of it.
     def logged_in_as_admin_of?(circle)
-      Membership.exists?(user: current_user, circle: circle, admin: true)
+      Membership.exists?(user: current_user, circle:, admin: true)
     end
   end
 end

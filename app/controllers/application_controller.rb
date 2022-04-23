@@ -7,12 +7,12 @@ class ApplicationController < ActionController::Base
   helper_method :logged_in?
 
   def in_circle?(circle)
-    Membership.exists?(user: current_user, circle: circle)
+    Membership.exists?(user: current_user, circle:)
   end
   helper_method :in_circle?
 
   def accepted_in_circle?(circle)
-    Membership.exists?(user: current_user, circle: circle, accepted: true)
+    Membership.exists?(user: current_user, circle:, accepted: true)
   end
   helper_method :accepted_in_circle?
 
@@ -22,7 +22,7 @@ class ApplicationController < ActionController::Base
   helper_method :logged_in_as_site_admin?
 
   def logged_in_as_admin_of?(circle)
-    Membership.exists?(user: current_user, circle: circle, admin: true)
+    Membership.exists?(user: current_user, circle:, admin: true)
   end
   helper_method :logged_in_as_admin_of?
 
