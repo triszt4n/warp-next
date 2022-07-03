@@ -7,6 +7,7 @@ namespace :data_migrate do
       has_one_attached :file
       friendly_id :filename, use: :slugged
       self.table_name = 'album_images'
+
       private
 
       def filename
@@ -21,10 +22,9 @@ namespace :data_migrate do
       has_many :album_images, class_name: 'TempAlbumImage', foreign_key: 'album_id'
     end
 
-
     ActiveRecord::Base.transaction do
       puts 'Running album migration for new album_image models defined in 2022-07-03'
-      ActiveStorage::Attachment.where(record_type: "Album").update_all("record_type = 'TempAlbum'")
+      ActiveStorage::Attachment.where(record_type: 'Album').update_all("record_type = 'TempAlbum'")
       puts "Migrating #{TempAlbum.all.sum { |album| album.images.length }} images"
       puts TempAlbum.first.album_images.count
       TempAlbum.all.each do |album|
@@ -37,6 +37,5 @@ namespace :data_migrate do
       ActiveStorage::Attachment.where(record_type: 'TempAlbum').delete_all
     end
     puts 'Migration done'
-
   end
 end

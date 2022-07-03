@@ -23,7 +23,5 @@ class Album < ApplicationRecord
     images.each do |image|
       album_images.build(file: image)
     end
-
   end
-
 end
