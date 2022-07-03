@@ -4,7 +4,7 @@ class Album < ApplicationRecord
   validates :desc, length: { maximum: 255 }
   belongs_to :user
   belongs_to :circle
-  has_many :album_images, dependent: :destroy
+  has_many :album_images, dependent: :destroy, autosave: true
 
   def thumbnail
     if album_images.empty?
@@ -16,5 +16,11 @@ class Album < ApplicationRecord
 
   def images
     album_images
+  end
+
+  def build_images(images)
+    images.each do |image|
+      album_images.build(file: image)
+    end
   end
 end

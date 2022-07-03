@@ -1,5 +1,5 @@
 class AlbumsController < ApplicationController
-  before_action :set_album, only: %i[edit update destroy delete_image add_image]
+  before_action :set_album, only: %i[edit update destroy delete_image add_image image]
   before_action :login_required
   before_action :admin_or_owner_required, only: %i[edit update destroy]
   before_action :admin_or_owner_or_shared_required, only: %i[delete_image add_image]
@@ -10,13 +10,13 @@ class AlbumsController < ApplicationController
   # GET /albums
   def index
     @albums = Album.all.order(created_at: :desc)
-    @title = 'Minden album'
+    @title  = 'Minden album'
   end
 
   # GET /albums/myalbums
   def myalbums
     @albums = Album.where(user: current_user).order(created_at: :desc)
-    @title = 'Albumaim'
+    @title  = 'Albumaim'
     render :index
   end
 
@@ -27,7 +27,7 @@ class AlbumsController < ApplicationController
 
   # GET /albums/new
   def new
-    @album = Album.new
+    @album   = Album.new
     @circles = current_user.memberships.where(accepted: true).map(&:circle)
 
     redirect_to circles_path, notice: 'Nincs körtagsága, nem hozhat létre kört!' if @circles.empty?
@@ -41,7 +41,7 @@ class AlbumsController < ApplicationController
     @render_target = :new
 
     @album = Album.new(album_params)
-    @album.images = params[:album][:images]
+    @album.build_images params[:album][:images]
     @album.user = current_user
 
     if @album.save
@@ -70,24 +70,27 @@ class AlbumsController < ApplicationController
 
   # GET /albums/1/image?image_id=1
   def image
+    image = @album.album_images.find_by(id: params[:image_id])
+    return render json: { status: 404 }, status: :not_found if image.blank?
+
     render json: {
-      url: url_for(ActiveStorage::Attachment.find(params[:image_id])),
-      filename: ActiveStorage::Attachment.find(params[:image_id]).blob.filename
+      url:      url_for(image),
+      filename: image.file.blob.filename
     }
   end
 
   # DELETE one image of the album
   def delete_image
-    image = ActiveStorage::Attachment.find(params[:image_id])
-    image.purge
+    image = AlbumImage.find(params[:image_id])
+    image.destroy!
     redirect_to @album
   end
 
   # POST add image(s) to the album
   def add_image
     images = params[:images]
-    @album.images.attach(images) if images.present?
-
+    @album.build_images(images) if images.present?
+    @album.save
     redirect_to @album, notice: 'Album sikeresen módosítva.'
   end
 
@@ -100,7 +103,7 @@ class AlbumsController < ApplicationController
 
   # Analyze all the images for their width and height
   def analyze_album
-    @album.images.each { |i| i.analyze unless i.analyzed? }
+    @album.images.map(&:file).each { |i| i.analyze unless i.analyzed? }
   end
 
   # Allow only owner or admin
@@ -114,9 +117,9 @@ class AlbumsController < ApplicationController
   # Allow for shared
   def admin_or_owner_or_shared_required
     unless current_user == @album.user ||
-           logged_in_as_site_admin? ||
-           logged_in_as_admin_of?(@album.circle) ||
-           @album.shared?
+      logged_in_as_site_admin? ||
+      logged_in_as_admin_of?(@album.circle) ||
+      @album.shared?
       redirect_to @album, notice: 'Nincs jogosultságod az funkcióhoz!'
     end
   end
