@@ -18,8 +18,12 @@ class Album < ApplicationRecord
   end
 
   def build_images(images)
+    return if images.blank?
+
     images.each do |image|
       album_images.build(file: image)
     end
+
   end
+
 end
