@@ -1,5 +1,4 @@
 class Album < ApplicationRecord
-
   validates :title, presence: true, length: { minimum: 3, maximum: 128 }
   validates :desc, length: { maximum: 255 }
   belongs_to :user

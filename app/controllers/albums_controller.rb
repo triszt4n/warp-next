@@ -74,7 +74,7 @@ class AlbumsController < ApplicationController
     return render json: { status: 404 }, status: :not_found if image.blank?
 
     render json: {
-      url:      url_for(image),
+      url: url_for(image),
       filename: image.file.blob.filename
     }
   end
@@ -117,9 +117,9 @@ class AlbumsController < ApplicationController
   # Allow for shared
   def admin_or_owner_or_shared_required
     unless current_user == @album.user ||
-      logged_in_as_site_admin? ||
-      logged_in_as_admin_of?(@album.circle) ||
-      @album.shared?
+           logged_in_as_site_admin? ||
+           logged_in_as_admin_of?(@album.circle) ||
+           @album.shared?
       redirect_to @album, notice: 'Nincs jogosultságod az funkcióhoz!'
     end
   end
