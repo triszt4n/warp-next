@@ -30,6 +30,8 @@ Rails.application.routes.draw do
     end
   end
 
+  get '/images/:id', to: 'album_image#show', as: :album_image
+
   get '/login', to: 'sessions#new', as: :login
   get '/logout', to: 'sessions#destroy', as: :logout
   get '/auth/oauth/callback', to: 'sessions#create'

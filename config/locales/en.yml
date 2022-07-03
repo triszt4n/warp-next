@@ -31,3 +31,6 @@
 
 en:
   hello: "Hello world"
+  album_images:
+    errors:
+      unauthorized: "You don't have permissions to view this resource"

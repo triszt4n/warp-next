@@ -22,7 +22,7 @@ class AlbumsController < ApplicationController
 
   # GET /albums/1
   def show
-    @album = Album.includes(:images_attachments).find(params[:id])
+    @album = Album.includes(:album_images).find(params[:id])
   end
 
   # GET /albums/new
