@@ -16,6 +16,8 @@ class AlbumImageController < ApplicationController
   end
 
   def authorize_image
+    return if @image.album.public?
+
     unless current_user.present? && (current_user.site_admin? || logged_in_as_admin_of?(album.circle) || album.shared?)
       redirect_to '/', notice: I18n.t('unauthorized', scope: 'album_images.errors')
     end
