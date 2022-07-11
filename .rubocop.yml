@@ -11,6 +11,7 @@ AllCops:
     - 'vendor/**/*'
     - '.git/**/*'
     - '.github/**/*'
+    - 'lib/tasks/data_migration.rake'
 # Cop specific settings
 Style/GuardClause:
   MinBodyLength: 3

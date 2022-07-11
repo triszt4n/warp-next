@@ -1,5 +1,8 @@
 ---
 hu:
+  album_images:
+    errors:
+      unauthorized: Nem vagy jogosult az erőforrás eléréséhez
   activerecord:
     errors:
       messages:
@@ -14,7 +17,7 @@ hu:
     - p.
     - szo.
     abbr_month_names:
-    - 
+    -
     - jan.
     - febr.
     - márc.
@@ -40,7 +43,7 @@ hu:
       long: "%Y. %B %e."
       short: "%b %e."
     month_names:
-    - 
+    -
     - január
     - február
     - március

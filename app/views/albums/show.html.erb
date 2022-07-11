@@ -10,8 +10,8 @@
         </span>
       <% end %>
       <% unless @album.public? %>
-        <span 
-          class="tag is-warning is-medium ml-1" 
+        <span
+          class="tag is-warning is-medium ml-1"
           title="Az album képei nem elérhetőek a weboldalon kívülről"
         >
           Nem publikus<sup class="is-align-self-flex-start">?</sup>
@@ -26,7 +26,7 @@
     <%= @album.desc %>
   </p>
   <p class="is-size-6 mt-5">
-    Használd a 
+    Használd a
     <svg xmlns="http://www.w3.org/2000/svg" height="20" fill="none" viewBox="0 2 24 20" stroke="currentColor">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
     </svg>
@@ -110,7 +110,7 @@
 
   <script>
     images = <%= @album.images.map { |i|
-      { src: url_for(i), w: i.metadata["width"], h: i.metadata["height"] }
+      { src: url_for(i), w: i.file.metadata["width"], h: i.file.metadata["height"] }
     }.to_json.html_safe %>
   </script>
   <script src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js"></script>
