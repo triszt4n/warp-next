@@ -21,6 +21,7 @@ class Album < ApplicationRecord
     return if images.blank?
 
     images.each do |image|
+      image.original_filename = Time.now.utc.strftime('%Y%m%d%H%M%S') + image.original_filename
       album_images.build(file: image)
     end
   end

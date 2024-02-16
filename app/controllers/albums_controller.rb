@@ -64,6 +64,10 @@ class AlbumsController < ApplicationController
 
   # DELETE /albums/1
   def destroy
+    @album.album_images.each do |image|
+      image.file.purge
+    end
+
     @album.destroy
     redirect_to albums_url, notice: 'Album sikeresen törölve.'
   end
@@ -82,6 +86,7 @@ class AlbumsController < ApplicationController
   # DELETE one image of the album
   def delete_image
     image = AlbumImage.find(params[:image_id])
+    image.file.purge
     image.destroy!
     redirect_to @album
   end
