@@ -12,7 +12,7 @@ class CirclePolicy < ApplicationPolicy
 
   def show?
     # Site admin OR circle member
-    @user.site_admin? || Membership.exists?(user: @user, circle: @record)
+    @user.site_admin? || Membership.exists?(user: @user, circle: @record, accepted: true)
   end
 
   def details?
