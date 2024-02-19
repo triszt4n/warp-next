@@ -15,10 +15,12 @@
     <div id="navbarBasicExample" class="navbar-menu">
       <div class="navbar-start">
         <%= link_to 'Körök', circles_path, class: 'navbar-item' %>
-        <% if logged_in_as_site_admin? %>
+        <% if policy(Album).index? %>
           <%= link_to 'Minden album', albums_path, class: 'navbar-item' %>
         <% end %>
-        <%= link_to 'Albumaim', myalbums_albums_path, class: 'navbar-item' %>
+        <% if policy(Album).myalbums? %>
+          <%= link_to 'Albumaim', myalbums_albums_path, class: 'navbar-item' %>
+        <% end %>
       </div>
 
       <div class="navbar-end">

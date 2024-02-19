@@ -1,20 +1,20 @@
 class AlbumsController < ApplicationController
   before_action :set_album, only: %i[edit update destroy delete_image add_image image]
-  before_action :login_required
-  before_action :admin_or_owner_required, only: %i[edit update destroy]
-  before_action :admin_or_owner_or_shared_required, only: %i[delete_image add_image]
-  attr_accessor :render_target
 
+  attr_accessor :render_target
   after_action :analyze_album, only: %i[create add_image]
+  after_action :verify_authorized, if: -> { Rails.env.development? }
 
   # GET /albums
   def index
+    authorize Album
     @albums = Album.all.order(created_at: :desc)
     @title  = 'Minden album'
   end
 
   # GET /albums/myalbums
   def myalbums
+    authorize Album
     @albums = Album.where(user: current_user).order(created_at: :desc)
     @title  = 'Albumaim'
     render :index
@@ -23,10 +23,12 @@ class AlbumsController < ApplicationController
   # GET /albums/1
   def show
     @album = Album.includes(:album_images).find(params[:id])
+    authorize @album
   end
 
   # GET /albums/new
   def new
+    authorize Album
     @album   = Album.new
     @circles = current_user.memberships.where(accepted: true).map(&:circle)
 
@@ -34,10 +36,13 @@ class AlbumsController < ApplicationController
   end
 
   # GET /albums/1/edit
-  def edit; end
+  def edit
+    authorize @album
+  end
 
   # POST /albums
   def create
+    authorize Album
     @render_target = :new
 
     @album = Album.new(album_params)
@@ -53,6 +58,7 @@ class AlbumsController < ApplicationController
 
   # PATCH/PUT /albums/1
   def update
+    authorize @album
     @render_target = :edit
 
     if @album.update(album_params)
@@ -64,6 +70,7 @@ class AlbumsController < ApplicationController
 
   # DELETE /albums/1
   def destroy
+    authorize @album
     @album.album_images.each do |image|
       image.file.purge
     end
@@ -74,6 +81,7 @@ class AlbumsController < ApplicationController
 
   # GET /albums/1/image?image_id=1
   def image
+    authorize @album
     image = @album.album_images.find_by(id: params[:image_id])
     return render json: { status: 404 }, status: :not_found if image.blank?
 
@@ -85,6 +93,7 @@ class AlbumsController < ApplicationController
 
   # DELETE one image of the album
   def delete_image
+    authorize @album
     image = AlbumImage.find(params[:image_id])
     image.file.purge
     image.destroy!
@@ -93,6 +102,7 @@ class AlbumsController < ApplicationController
 
   # POST add image(s) to the album
   def add_image
+    authorize @album
     images = params[:images]
     @album.build_images(images) if images.present?
     @album.save
@@ -109,24 +119,6 @@ class AlbumsController < ApplicationController
   # Analyze all the images for their width and height
   def analyze_album
     @album.images.map(&:file).each { |i| i.analyze unless i.analyzed? }
-  end
-
-  # Allow only owner or admin
-  def admin_or_owner_required
-    unless current_user == @album.user || logged_in_as_site_admin? || logged_in_as_admin_of?(@album.circle)
-      redirect_to @album,
-                  notice: 'Nincs jogosultságod az funkcióhoz!'
-    end
-  end
-
-  # Allow for shared
-  def admin_or_owner_or_shared_required
-    unless current_user == @album.user ||
-           logged_in_as_site_admin? ||
-           logged_in_as_admin_of?(@album.circle) ||
-           @album.shared?
-      redirect_to @album, notice: 'Nincs jogosultságod az funkcióhoz!'
-    end
   end
 
   # Only allow a list of trusted parameters through.

@@ -14,7 +14,7 @@
       <input class="input" type="text" placeholder="Search" id="searchBar">
       <span class="icon is-left">
         <svg xmlns="http://www.w3.org/2000/svg" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
         </svg>
       </span>
     </div>
@@ -26,9 +26,9 @@
 
 <div class="columns is-mobile is-multiline album-columns">
   <% @albums.each do |album| %>
-    <div 
-      class="column mt-3 is-half-mobile is-one-third-tablet is-one-quarter-desktop is-one-fifth-widescreen" 
-      id="albumColumn" 
+    <div
+      class="column mt-3 is-half-mobile is-one-third-tablet is-one-quarter-desktop is-one-fifth-widescreen"
+      id="albumColumn"
       data-title="<%= album.title %>"
       data-desc="<%= album.desc %>"
       data-circle="<%= album.circle&.name %>"
@@ -43,11 +43,11 @@
         </div>
 
         <%# Button for admins or the owner %>
-        <% if logged_in_as_site_admin? || logged_in_as_admin_of?(album.circle) || album.user == current_user %>
+        <% if policy(album).destroy? %>
           <%= link_to album, class: "button is-danger album-image-delete",
-            method: :delete, data: { confirm: 'Valóban el szeretnéd távolítani a teljes albumot?' } do %>
+                      method: :delete, data: { confirm: 'Valóban el szeretnéd távolítani a teljes albumot?' } do %>
             <svg xmlns="http://www.w3.org/2000/svg" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
             </svg>
           <% end %>
         <% end %>
@@ -61,15 +61,15 @@
           <%# Private badge %>
           <% unless album.public? %>
             <div class="album-card-nonpublic">
-              <span 
-                class="tag is-warning" 
+              <span
+                class="tag is-warning"
                 title="Az album képei nem elérhetőek a weboldalon kívülről"
               >
                 Nem publikus<sup class="is-align-self-flex-start">?</sup>
               </span>
             </div>
           <% end %>
-          
+
           <%= link_to album, class: "has-text-weight-semibold" do %>
             <span class="is-size-4"><%= album.title %></span>
           <% end %>
