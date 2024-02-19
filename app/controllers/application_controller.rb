@@ -1,5 +1,9 @@
 class ApplicationController < ActionController::Base
+  include Pundit::Authorization
+
+
   rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
+  rescue_from Pundit::NotAuthorizedError, with: :site_admin_required
 
   protected
 

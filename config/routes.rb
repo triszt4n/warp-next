@@ -11,7 +11,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :users do
+  resources :users, except: [:index, :new, :create] do
     collection do
       get :adminpage
     end
