@@ -1,9 +1,9 @@
 class MembershipsController < ApplicationController
   before_action :set_membership, only: %i[destroy accept demote promote]
-  before_action :admin_required, only: %i[destroy accept demote promote]
-
+  after_action :verify_authorized, if: -> { Rails.env.development? }
   # POST /memberships
   def create
+    authorize Membership
     @membership = Membership.new(membership_params)
 
     if @membership.save
@@ -15,6 +15,7 @@ class MembershipsController < ApplicationController
 
   # DELETE /memberships/1
   def destroy
+    authorize @membership
     circle = @membership.circle
     @membership.destroy
     redirect_to details_circle_path(circle), notice: 'Tagság sikeresen törölve.'
@@ -22,9 +23,9 @@ class MembershipsController < ApplicationController
 
   # POST /memberships/1/accept
   def accept
-    @membership.accepted = true
+    authorize @membership
 
-    if @membership.save
+    if @membership.update(accepted: true)
       redirect_to details_circle_path(@membership.circle), notice: 'Tagság sikeresen elfogadva.'
     else
       redirect_to details_circle_path(@membership.circle), notice: 'Tagság elfogadása sikertelen!'
@@ -33,9 +34,9 @@ class MembershipsController < ApplicationController
 
   # POST /memberships/1/promote
   def promote
-    @membership.admin = true
+    authorize @membership
 
-    if @membership.save
+    if @membership.update(admin: true)
       redirect_to details_circle_path(@membership.circle), notice: 'Tag sikeresen köradmin lett.'
     else
       redirect_to details_circle_path(@membership.circle), notice: 'Tagság módosítása sikertelen!'
@@ -44,9 +45,9 @@ class MembershipsController < ApplicationController
 
   # POST /memberships/1/demote
   def demote
-    @membership.admin = false
+    authorize @membership
 
-    if @membership.save
+    if @membership.update(admin: false)
       redirect_to details_circle_path(@membership.circle), notice: 'Tag köradminsága sikeresen megszüntetve.'
     else
       redirect_to details_circle_path(@membership.circle), notice: 'Tagság módosítása sikertelen!'
@@ -65,10 +66,4 @@ class MembershipsController < ApplicationController
     params.require(:membership).permit(:circle_id, :user_id)
   end
 
-  # Allow for admin of circle
-  def admin_required
-    unless logged_in_as_site_admin? || logged_in_as_admin_of?(@membership.circle)
-      redirect_to @membership, notice: 'Nincs jogosultságod az funkcióhoz!'
-    end
-  end
 end
