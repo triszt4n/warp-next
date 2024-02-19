@@ -2,6 +2,7 @@ class AlbumsController < ApplicationController
   before_action :set_album, only: %i[edit update destroy delete_image add_image image]
 
   attr_accessor :render_target
+
   after_action :analyze_album, only: %i[create add_image]
   after_action :verify_authorized, if: -> { Rails.env.development? }
 

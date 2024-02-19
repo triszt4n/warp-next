@@ -1,5 +1,4 @@
 class AlbumPolicy < ApplicationPolicy
-
   def initialize(user, record)
     # Never allow not logged in access
     raise Pundit::NotAuthorizedError, 'must be logged in' unless user

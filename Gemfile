@@ -70,4 +70,4 @@ gem 'dotenv-rails', groups: %i[development test]
 gem 'i18n_generators', '~> 2.2', '>= 2.2.2'
 
 # Authorization
-gem "pundit", "~> 2.3"
+gem 'pundit', '~> 2.3'

@@ -33,5 +33,4 @@ class MembershipPolicy < ApplicationPolicy
   def circle_admin
     Membership.exists?(user: @user, circle: @record.circle, admin: true)
   end
-
 end

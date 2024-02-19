@@ -76,6 +76,4 @@ class CirclesController < ApplicationController
   def circle_params
     params.require(:circle).permit(:name)
   end
-
-
 end

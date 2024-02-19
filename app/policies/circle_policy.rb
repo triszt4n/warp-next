@@ -39,6 +39,4 @@ class CirclePolicy < ApplicationPolicy
   def destroy?
     @user.site_admin?
   end
-
 end
-
