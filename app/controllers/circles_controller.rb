@@ -1,33 +1,39 @@
 class CirclesController < ApplicationController
   before_action :set_circle, only: %i[details show edit update destroy]
-  before_action :site_admin_required, only: %i[edit update destroy]
-  before_action :admin_required, only: %i[details]
-  before_action :admin_or_member_required, only: %i[show]
+  after_action :verify_authorized, if: -> { Rails.env.development? }
 
   # GET /circles
   def index
+    authorize Circle
     @circles = Circle.all
   end
 
   # GET /circles/1
   def show
+    authorize @circle
     @albums = Album.where(circle: @circle).order(created_at: :desc)
     render 'albums/index'
   end
 
   # GET /circles/1/details
-  def details; end
+  def details
+    authorize @circle
+  end
 
   # GET /circles/new
   def new
+    authorize Circle
     @circle = Circle.new
   end
 
   # GET /circles/1/edit
-  def edit; end
+  def edit
+    authorize @circle
+  end
 
   # POST /circles
   def create
+    authorize Circle
     @render_target = :new
 
     @circle = Circle.new(circle_params)
@@ -42,6 +48,7 @@ class CirclesController < ApplicationController
 
   # PUT /circles/1
   def update
+    authorize @circle
     @render_target = :edit
 
     if @circle.update(circle_params)
@@ -53,6 +60,7 @@ class CirclesController < ApplicationController
 
   # DELETE /circles/1
   def destroy
+    authorize @circle
     @circle.destroy
     redirect_to circles_url, notice: 'Kör sikeresen törölve.'
   end
@@ -69,16 +77,5 @@ class CirclesController < ApplicationController
     params.require(:circle).permit(:name)
   end
 
-  # Allow for admin of circle
-  def admin_required
-    unless logged_in_as_site_admin? || logged_in_as_admin_of?(@circle)
-      redirect_to circles_path, notice: 'Nincs jogosultságod az funkcióhoz!'
-    end
-  end
 
-  def admin_or_member_required
-    unless logged_in_as_site_admin? || logged_in_as_admin_of?(@circle) || accepted_in_circle?(@circle)
-      redirect_to circles_path, notice: 'Nincs jogosultságod az funkcióhoz!'
-    end
-  end
 end
