@@ -3,7 +3,7 @@
 <div style="overflow-x: auto;">
   <table class="table is-hoverable mx-auto">
     <tbody>
-    <% if logged_in_as_site_admin? %>
+    <% if policy(User).adminpage? %>
       <tr>
         <td class="has-text-right">Uid:</td>
         <td><%= @user.uid %></td>
