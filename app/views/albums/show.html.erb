@@ -28,13 +28,13 @@
   <p class="is-size-6 mt-5">
     Használd a
     <svg xmlns="http://www.w3.org/2000/svg" height="20" fill="none" viewBox="0 2 24 20" stroke="currentColor">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/>
     </svg>
     gombot a kép elérési címének vágólapra másolásához!
   </p>
 </div>
 
-<% if logged_in_as_site_admin? || logged_in_as_admin_of?(@album.circle) || @album.user == current_user || @album.shared? %>
+<% if policy(@album).destroy? || policy(@album).edit? || policy(@album).add_image? %>
   <div class="has-text-right">
     <div class="dropdown is-hoverable is-right">
       <div class="dropdown-trigger">
@@ -42,21 +42,25 @@
           <span>Lehetőségek...</span>
           <span class="icon is-small">
             <svg xmlns="http://www.w3.org/2000/svg" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
             </svg>
           </span>
         </button>
       </div>
       <div class="dropdown-menu" id="dropdown-menu6" role="menu">
         <div class="dropdown-content">
-          <a type="button" class="dropdown-item" id="modalButton">
-            Kép(ek) hozzáadása
-          </a>
-          <% if logged_in_as_site_admin? || logged_in_as_admin_of?(@album.circle) || @album.user == current_user %>
+          <% if policy(@album).add_image? %>
+            <a type="button" class="dropdown-item" id="modalButton">
+              Kép(ek) hozzáadása
+            </a>
+          <% end %>
+          <% if policy(@album).edit? %>
             <%= link_to "Tulajdonságok módosítása", edit_album_path(@album), class: "dropdown-item" %>
+          <% end %>
+          <% if policy(@album).destroy? %>
             <hr class="dropdown-divider">
             <%= link_to("Album törlése", @album, class: "has-text-danger dropdown-item",
-              method: :delete, data: { confirm: "Biztosan törlöd az egész albumot?" }) %>
+                        method: :delete, data: { confirm: "Biztosan törlöd az egész albumot?" }) %>
           <% end %>
         </div>
       </div>
@@ -74,11 +78,11 @@
           </figure>
         </div>
 
-        <% if logged_in_as_site_admin? || logged_in_as_admin_of?(@album.circle) || @album.user == current_user || @album.shared? %>
+        <% if policy(@album).delete_image? %>
           <%= link_to delete_image_album_url(image_id: image.id), class: "button is-danger p-3 album-image-delete",
-            method: :delete, data: { confirm: 'Valóban el szeretnéd távolítani a képet?' } do %>
+                      method: :delete, data: { confirm: 'Valóban el szeretnéd távolítani a képet?' } do %>
             <svg xmlns="http://www.w3.org/2000/svg" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
             </svg>
           <% end %>
         <% end %>
@@ -86,7 +90,7 @@
         <% if @album.public? %>
           <button type="button" class="button is-success p-3 album-image-clipboard" data-url="<%= url_for(image) %>" id="clipboardButton">
             <svg xmlns="http://www.w3.org/2000/svg" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/>
             </svg>
           </button>
         <% end %>
@@ -102,16 +106,17 @@
 <% end %>
 
 <% content_for :javascripts do %>
-  <% if logged_in_as_site_admin? || logged_in_as_admin_of?(@album.circle) || @album.user == current_user %>
+  <% if policy(@album).add_image? %>
     <%= render 'modal', album: @album %>
   <% end %>
 
   <%= render 'photoswipe' %>
 
   <script>
-    images = <%= @album.images.map { |i|
-      { src: url_for(i), w: i.file.metadata["width"], h: i.file.metadata["height"] }
-    }.to_json.html_safe %>
+    images =
+    <%= @album.images.map { |i|
+         { src: url_for(i), w: i.file.metadata["width"], h: i.file.metadata["height"] }
+       }.to_json.html_safe %>
   </script>
   <script src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js"></script>
   <script src="https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js"></script>

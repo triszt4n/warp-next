@@ -3,7 +3,7 @@
 <div style="overflow-x: auto;">
   <table class="table is-hoverable mx-auto">
     <tbody>
-    <% if logged_in_as_site_admin? %>
+    <% if policy(User).adminpage? %>
       <tr>
         <td class="has-text-right">Uid:</td>
         <td><%= @user.uid %></td>
@@ -31,7 +31,7 @@
         <% end %>
       </td>
     </tr>
-    <% if logged_in_as_site_admin? %>
+    <% if policy(User).adminpage?%>
       <tr>
         <td class="has-text-right">Site admin jog:</td>
         <td><%= @user.site_admin? ? "Igen" : "Nem" %></td>
@@ -42,10 +42,13 @@
 </div>
 
 <div class="is-flex is-justify-content-center mt-5">
-  <% if logged_in_as_site_admin? %>
+  <% if policy(User).adminpage? %>
     <%= link_to "Vissza", adminpage_users_path, class: "button mx-2" %>
-    <%= link_to "Felülírás", edit_user_path(@user), class: "button is-warning mx-2" %>
   <% else %>
     <%= link_to "Vissza", root_path, class: "button mx-2" %>
   <% end %>
+
+  <%if policy(@user).edit? %>
+    <%= link_to "Felülírás", edit_user_path(@user), class: "button is-warning mx-2" %>
+  <%end %>
 </div>

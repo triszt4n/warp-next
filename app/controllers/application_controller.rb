@@ -1,5 +1,8 @@
 class ApplicationController < ActionController::Base
+  include Pundit::Authorization
+
   rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
+  rescue_from Pundit::NotAuthorizedError, with: :not_authorized
 
   protected
 
@@ -21,18 +24,6 @@ class ApplicationController < ActionController::Base
 
   helper_method :accepted_in_circle?
 
-  def logged_in_as_site_admin?
-    current_user&.site_admin?
-  end
-
-  helper_method :logged_in_as_site_admin?
-
-  def logged_in_as_admin_of?(circle)
-    Membership.exists?(user: current_user, circle: circle, admin: true)
-  end
-
-  helper_method :logged_in_as_admin_of?
-
   def current_user
     @current_user ||= User.find(session[:user_id]) if logged_in?
   end
@@ -40,13 +31,8 @@ class ApplicationController < ActionController::Base
   helper_method :current_user
 
   # Function used in derived classes as before actions
-  def login_required
-    redirect_to root_path, notice: 'Be kell jelentkezned!' unless logged_in?
-  end
-
-  # Function used in derived classes as before actions
-  def site_admin_required
-    redirect_to root_path, notice: 'Nincs jogosultságod az oldalhoz!' unless logged_in_as_site_admin?
+  def not_authorized
+    redirect_to root_path, notice: 'Nincs jogosultságod az oldalhoz!'
   end
 
   def record_not_found

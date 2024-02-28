@@ -6,37 +6,39 @@
   <div class="users-table mt-5">
     <table class="table is-hoverable is-striped is-fullwidth">
       <thead>
-        <tr>
-          <th>Név</th>
-          <th>E-mail</th>
-          <th>Tagságok</th>
-          <th>Belépés ideje</th>
-          <th></th>
-        </tr>
+      <tr>
+        <th>Név</th>
+        <th>E-mail</th>
+        <th>Tagságok</th>
+        <th>Belépés ideje</th>
+        <th></th>
+      </tr>
       </thead>
 
       <tbody>
-        <% @users.each do |user| %>
-          <tr>
-            <td><%= link_to user.name, user %><%= user.site_admin? ? " [ADMIN]" : "" %></td>
-            <td><%= user.email %></td>
-            <td>
-              <% user.circles.each do |circle| %>
-                <div>
-                  <%= link_to circle.name, details_circle_path(circle) %>
-                </div>
-              <% end %>
-            </td>
-            <td><%= l user.created_at %></td>
-            <td class="has-text-right">
+      <% @users.each do |user| %>
+        <tr>
+          <td><%= link_to user.name, user %><%= user.site_admin? ? " [ADMIN]" : "" %></td>
+          <td><%= user.email %></td>
+          <td>
+            <% user.circles.each do |circle| %>
+              <div>
+                <%= link_to circle.name, details_circle_path(circle) %>
+              </div>
+            <% end %>
+          </td>
+          <td><%= l user.created_at %></td>
+          <td class="has-text-right">
+            <% if policy(user).destroy? %>
               <%= link_to user, method: :delete, data: { confirm: 'Valóban törlöd a felhasználót?' }, class: "button is-small is-danger" do %>
                 <svg xmlns="http://www.w3.org/2000/svg" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
                 </svg>
               <% end %>
-            </td>
-          </tr>
-        <% end %>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
       </tbody>
     </table>
   </div>
@@ -50,46 +52,46 @@
   <div class="users-table mt-5">
     <table class="table is-hoverable is-striped is-fullwidth">
       <thead>
-        <tr>
-          <th>Név</th>
-          <th>Adminok</th>
-          <th>Tagszám</th>
-          <th>Albumszám</th>
-          <th>Létrehozás ideje</th>
-          <th></th>
-        </tr>
+      <tr>
+        <th>Név</th>
+        <th>Adminok</th>
+        <th>Tagszám</th>
+        <th>Albumszám</th>
+        <th>Létrehozás ideje</th>
+        <th></th>
+      </tr>
       </thead>
 
       <tbody>
-        <% @circles.each do |circle| %>
-          <tr>
-            <td class="is-flex is-flex-direction-row is-align-items-center">
-              <%= image_tag url_for(circle.mini), style: "height: 1.25rem" %>
-              <%= link_to circle.name, details_circle_path(circle), class: "ml-2" %>
-            </td>
-            <td>
-              <% circle.memberships.where(admin: true).each do |membership| %>
-                <div>
-                  <%= link_to membership.user.name, membership.user %>
-                </div>
-              <% end %>
-            </td>
-            <td>
-              <%= circle.memberships.length %>
-            </td>
-            <td>
-              <%= circle.albums.length %>
-            </td>
-            <td><%= l circle.created_at %></td>
-            <td class="has-text-right">
-              <%= link_to circle, method: :delete, data: { confirm: 'Valóban törlöd a kört és tagságait?' }, class: "button is-small is-danger" do %>
-                <svg xmlns="http://www.w3.org/2000/svg" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                </svg>
-              <% end %>
-            </td>
-          </tr>
-        <% end %>
+      <% @circles.each do |circle| %>
+        <tr>
+          <td class="is-flex is-flex-direction-row is-align-items-center">
+            <%= image_tag url_for(circle.mini), style: "height: 1.25rem" %>
+            <%= link_to circle.name, details_circle_path(circle), class: "ml-2" %>
+          </td>
+          <td>
+            <% circle.memberships.where(admin: true).each do |membership| %>
+              <div>
+                <%= link_to membership.user.name, membership.user %>
+              </div>
+            <% end %>
+          </td>
+          <td>
+            <%= circle.memberships.length %>
+          </td>
+          <td>
+            <%= circle.albums.length %>
+          </td>
+          <td><%= l circle.created_at %></td>
+          <td class="has-text-right">
+            <%= link_to circle, method: :delete, data: { confirm: 'Valóban törlöd a kört és tagságait?' }, class: "button is-small is-danger" do %>
+              <svg xmlns="http://www.w3.org/2000/svg" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+              </svg>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
       </tbody>
     </table>
   </div>

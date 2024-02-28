@@ -1,10 +1,10 @@
 class UsersController < ApplicationController
   before_action :set_user, only: %i[show edit update destroy]
-  before_action :login_required
-  before_action :site_admin_required, only: %i[adminpage edit update destroy]
+  after_action :verify_authorized, if: -> { Rails.env.development? }
 
   # GET /users/adminpage
   def adminpage
+    authorize User
     @users = User.all.order(created_at: :desc)
     @circles = Circle.all
     @album_count = Album.count(:all)
@@ -13,13 +13,18 @@ class UsersController < ApplicationController
   end
 
   # GET /users/1
-  def show; end
+  def show
+    authorize User
+  end
 
   # GET /users/1/edit
-  def edit; end
+  def edit
+    authorize User
+  end
 
   # PATCH/PUT /users/1
   def update
+    authorize @user
     if @user.update(user_params)
       redirect_to @user, notice: 'Felhasználó sikeresen módosítva.'
     else
@@ -29,6 +34,7 @@ class UsersController < ApplicationController
 
   # DELETE /users/1
   def destroy
+    authorize @user
     @user.destroy
     redirect_to albums_url, notice: 'Felhasználó sikeresen törölve.'
   end

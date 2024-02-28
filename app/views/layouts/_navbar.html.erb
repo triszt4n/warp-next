@@ -1,39 +1,42 @@
 <nav class="navbar" role="navigation" aria-label="main navigation">
   <div class="container">
-  <div class="navbar-brand mr-2">
-    <%= link_to root_path, class: "navbar-item" do %>
-      <%= image_tag image_path('favicon.svg'), size: "64" %>
-    <% end %>
-
-    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
-      <span aria-hidden="true"></span>
-      <span aria-hidden="true"></span>
-      <span aria-hidden="true"></span>
-    </a>
-  </div>
-
-  <div id="navbarBasicExample" class="navbar-menu">
-    <div class="navbar-start">
-      <%= link_to 'Körök', circles_path, class: 'navbar-item' %>
-      <% if logged_in_as_site_admin? %>
-        <%= link_to 'Minden album', albums_path, class: 'navbar-item' %>
+    <div class="navbar-brand mr-2">
+      <%= link_to root_path, class: "navbar-item" do %>
+        <%= image_tag image_path('favicon.svg'), size: "64" %>
       <% end %>
-      <%= link_to 'Albumaim', myalbums_albums_path, class: 'navbar-item' %>
+
+      <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
     </div>
 
-    <div class="navbar-end">
-      <div class="navbar-item has-dropdown is-hoverable">
-        <a class="navbar-link">
-          <%= current_user.name %>
-        </a>
+    <div id="navbarBasicExample" class="navbar-menu">
+      <div class="navbar-start">
+        <%= link_to 'Körök', circles_path, class: 'navbar-item' %>
+        <% if policy(Album).index? %>
+          <%= link_to 'Minden album', albums_path, class: 'navbar-item' %>
+        <% end %>
+        <% if policy(Album).myalbums? %>
+          <%= link_to 'Albumaim', myalbums_albums_path, class: 'navbar-item' %>
+        <% end %>
+      </div>
 
-        <div class="navbar-dropdown is-right">
-          <%= link_to "Felhasználói adatok", user_path(current_user), class: 'navbar-item' %>
-          <% if logged_in_as_site_admin? %>
-            <%= link_to "Site adminisztrátori oldal", adminpage_users_path, class: 'navbar-item' %>
-          <% end %>
-          <hr class="navbar-divider">
-          <%= link_to "Kijelentkezés", logout_path, class: 'navbar-item has-text-danger' %>
+      <div class="navbar-end">
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link">
+            <%= current_user.name %>
+          </a>
+
+          <div class="navbar-dropdown is-right">
+            <%= link_to "Felhasználói adatok", user_path(current_user), class: 'navbar-item' %>
+            <% if policy(User).adminpage? %>
+              <%= link_to "Site adminisztrátori oldal", adminpage_users_path, class: 'navbar-item' %>
+            <% end %>
+            <hr class="navbar-divider">
+            <%= link_to "Kijelentkezés", logout_path, class: 'navbar-item has-text-danger' %>
+          </div>
         </div>
       </div>
     </div>
